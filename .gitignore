@@ -1,5 +1,4 @@
-bdd/
-public/settings/
+public/settings/settings.php
 vendor/
 *.lock
 *.doc
