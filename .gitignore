@@ -1,0 +1,5 @@
+bdd/
+public/settings/
+vendor/
+*.lock
+*.doc

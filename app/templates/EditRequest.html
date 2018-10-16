@@ -1,0 +1,229 @@
+<h1>Nouvelle demande de développement</h1>
+<form name="newRequestForm">
+	<p class="section-title">Informations générales</p>
+	<div class="form-group row">
+		<label for="applicant" class="col-sm-3 col-form-label">Nom complet du demandeur <span class="required-field">*</span></label>
+		<div class="col-sm-3">
+			<input type="text" class="form-control" ng-model="request.applicant" id="applicant" required capitalize readonly />
+		</div>
+	</div>
+  	<div class="form-group row">
+		<label for="department" class="col-sm-3 col-form-label">Département <span class="required-field">*</span></label>
+		<div class="col-sm-3">
+			<select class="form-control" 
+					ng-model="request.department" 
+					ng-options="department as department.name for department in departments track by department.id" 
+					id="department" 
+					auto-focus 
+					required>
+				<option value="" disabled>Choisir...</option>
+			</select>
+		</div>
+	</div>
+  	<!-- <div class="form-group row">
+		<label for="department" class="col-sm-3 col-form-label">Département <span class="required-field">*</span></label>
+		<div class="col-sm-3">
+			<select class="form-control" 
+					ng-change="displayCostCenter(request.department.id)" 
+					ng-model="request.department" 
+					ng-options="department as department.name for department in departments track by department.id" 
+					id="department">
+				<option value="" disabled>Choisir...</option>
+			</select>
+		</div>
+		<div class="form-group row" ng-if="displayingCostCenter">
+			<label for="cost-center" class="col-sm-4 col-form-label">Cost center</label>
+			<div class="col-sm-6">
+				<input type="text" class="form-control" ng-model="selectedDepartment.costCenter" id="cost-center" disabled />
+			</div>
+		</div>
+	</div> -->
+
+	<p class="section-title">Projet</p>
+	<div class="form-group row">
+		<label for="project-name" class="col-sm-3 col-form-label">Intitulé du projet <span class="required-field">*</span></label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" ng-model="request.projectName" id="project-name" required />
+		</div>
+	</div>
+	<div class="form-group row">
+		<label for="current-situation-descr" class="col-sm-3 col-form-label">Description de la situation actuelle <span class="required-field">*</span></label>
+		<div class="col-sm-9">
+			<textarea class="form-control" ng-model="request.currentSituationDescr" id="current-situation-descr" rows="4" cols="40" required></textarea>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label for="current-issue-descr" class="col-sm-3 col-form-label">Description du problème <span class="required-field">*</span></label>
+		<div class="col-sm-9">
+			<textarea class="form-control" ng-model="request.currentIssueDescr" id="current-issue-descr" rows="4" cols="40" required></textarea>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label for="proposed-solution-descr" class="col-sm-3 col-form-label">Description de la solution proposée <span class="required-field">*</span></label>
+		<div class="col-sm-9">
+			<textarea class="form-control" ng-model="request.proposedSolutionDescr" id="proposed-solution-descr" rows="4" cols="40" required></textarea>
+		</div>
+	</div>
+	<!-- <div class="form-group row">
+		<label class="col-sm-3 col-form-label" for="added-file">Ajouter un fichier</label>
+		<div class="col">
+			<input type="file" class="form-control-file col-sm-6" ng-model="request.addedFile" id="added-file" files-input />
+		</div>
+	</div> -->
+
+	<p class="section-title">Gains attendus (en €)</p>
+	<div class="row justify-content-center">
+		<div class="text-left col-sm-3 tableCell tableHeader">Analyse du projet</div>
+		<div class="text-center col-sm-1 tableCell tableHeader">Y1 <span class="required-field">*</span></div>
+		<div class="text-center col-sm-1 tableCell tableHeader">Y2</div>
+		<div class="text-center col-sm-1 tableCell tableHeader">Y3</div>
+		<div class="text-center col-sm-1 tableCell tableHeader">Y4</div>
+		<div class="text-center col-sm-1 tableCell tableHeader">Total</div>
+	</div>
+	<div class="row justify-content-center">
+		<div class="text-left col-sm-3 tableCell">Investissements</div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.benInvY1" required /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.benInvY2" /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.benInvY3" /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.benInvY4" /></div>
+		<div class="text-center col-sm-1 tableCell">{{request.benInvY1 + request.benInvY2 + request.benInvY3 + request.benInvY4}}</div>
+	</div>
+	<div class="row justify-content-center">
+		<div class="text-left col-sm-3 tableCell">Coûts d'exploitation</div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.benCostY1" required /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.benCostY2" /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.benCostY3" /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.benCostY4" /></div>
+		<div class="text-center col-sm-1 tableCell">{{request.benCostY1 + request.benCostY2 + request.benCostY3 + request.benCostY4}}</div>
+	</div>
+	<div class="row justify-content-center">
+		<div class="text-left col-sm-3 tableCell">Bénéfices</div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.benBenefY1" required /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.benBenefY2" /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.benBenefY3" /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.benBenefY4" /></div>
+		<div class="text-center col-sm-1 tableCell">{{request.benBenefY1 + request.benBenefY2 + request.benBenefY3 + request.benBenefY4}}</div>
+	</div>
+	<div class="row justify-content-center">
+		<div class="text-left col-sm-3 tableCell">Total</div>
+		<div class="text-center col-sm-1 tableCell">{{request.benBenefY1 - (request.benInvY1 + request.benCostY1)}}</div>
+		<div class="text-center col-sm-1 tableCell">{{request.benBenefY2 - (request.benInvY2 + request.benCostY2)}}</div>
+		<div class="text-center col-sm-1 tableCell">{{request.benBenefY3 - (request.benInvY3 + request.benCostY3)}}</div>
+		<div class="text-center col-sm-1 tableCell">{{request.benBenefY4 - (request.benInvY4 + request.benCostY4)}}</div>
+		<div class="text-center col-sm-1 tableCell">{{(request.benBenefY1 + request.benBenefY2 + request.benBenefY3 + request.benBenefY4) - 
+		  								((request.benInvY1 + request.benInvY2 + request.benInvY3 + request.benInvY4) + 
+		  								(request.benCostY1 + request.benCostY2 + request.benCostY3 + request.benCostY4))}}</div>
+	</div>
+
+	<p class="section-title">Budget (en €)</p>
+	<div class="form-group row">
+		<label for="budget-estimated" class="col-sm-3 col-form-label">Estimé <span class="required-field">*</span></label>
+		<div class="col-sm-2">
+			<input type="text" class="form-control" ng-model="request.budgetEstimated" id="budget-estimated" required />			
+		</div>
+	</div>
+	<div class="form-group row">
+		<label for="budget-available" class="col-sm-3 col-form-label">Disponible <span class="required-field">*</span></label>
+		<div class="col-sm-2">
+			<input type="text" class="form-control" ng-model="request.budgetAvailable" id="budget-available" required />
+		</div>
+	</div>
+
+    <p class="section-title">Gestion du projet</p>
+	<div class="form-group row">
+		<label for="project-manager" class="col-sm-3 col-form-label">Sponsor du projet <span class="required-field">*</span></label>
+		<div class="col-sm-3">
+			<input type="text" class="form-control" ng-model="request.projectManager" id="project-manager" required />
+		</div>
+	</div>
+	<div class="form-group row">
+		<label for="project-manager-business" class="col-sm-3 col-form-label">Chef de projet Business <span class="required-field">*</span></label>
+		<div class="col-sm-3">
+			<input type="text" class="form-control" ng-model="request.projectManagerBusiness" id="project-manager-business" required />
+		</div>
+	</div>
+	<div class="form-group row">
+		<label for="project-manager-it" class="col-sm-3 col-form-label">Chef de projet IT</label>
+		<div class="col-sm-3">
+			<input type="text" class="form-control" ng-model="request.projectManagerIT" id="project-manager-it" ng-readonly="!weAreIT" />
+		</div>
+	</div>
+
+	<p class="section-title">Calendrier du projet</p>
+	<div class="row justify-content-center">
+		<div class="text-left col-sm-3 tableCell tableHeader">Etape / Besoin en ressources</div>
+		<div class="text-center col-sm-2 tableCell tableHeader">Charge business (en h) <span class="required-field">*</span></div>
+		<div class="text-center col-sm-2 tableCell tableHeader">Expected delivery date <span class="required-field">*</span></div>
+		<div class="text-center col-sm-1 tableCell tableHeader">IT</div>
+		<div class="text-center col-sm-1 tableCell tableHeader">External</div>
+		<div class="text-center col-sm-1 tableCell tableHeader">Assets</div>
+	</div>
+	<div class="row justify-content-center">
+		<div class="text-left col-sm-3 tableCell">1 - Concept &amp; Business case</div>
+		<div class="text-center col-sm-2 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched1Business" required /></div>
+		<div class="text-center col-sm-2 tableCell"><input type="date" class="form-control form-control-sm inputCell" ng-model="request.projSched1ExpDate" required /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched1IT" ng-readonly="!weAreIT" /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched1External" ng-readonly="!weAreIT" /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched1Assets" ng-readonly="!weAreIT" /></div>
+	</div>
+	<!-- <div class="row justify-content-center">
+		<div class="text-left col-sm-3 tableCell">2 - Pipeline</div>
+		<div class="text-center col-sm-2 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched2Business" required readonly value="0" /></div>
+		<div class="text-center col-sm-2 tableCell"><input type="date" class="form-control form-control-sm inputCell" ng-model="request.projSched2ExpDate" readonly /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched2IT" ng-readonly="!weAreIT" /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched2External" ng-readonly="!weAreIT" /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched2Assets" ng-readonly="!weAreIT" /></div>
+	</div> -->
+	<div class="row justify-content-center">
+		<div class="text-left col-sm-3 tableCell">2 - Analysis &amp; spec</div>
+		<div class="text-center col-sm-2 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched3Business" required /></div>
+		<div class="text-center col-sm-2 tableCell"><input type="date" class="form-control form-control-sm inputCell" ng-model="request.projSched3ExpDate" required /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched3IT" ng-readonly="!weAreIT" /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched3External" ng-readonly="!weAreIT" /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched3Assets" ng-readonly="!weAreIT" /></div>
+	</div>
+	<div class="row justify-content-center">
+		<div class="text-left col-sm-3 tableCell">3 - Development &amp; test</div>
+		<div class="text-center col-sm-2 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched4Business" required /></div>
+		<div class="text-center col-sm-2 tableCell"><input type="date" class="form-control form-control-sm inputCell" ng-model="request.projSched4ExpDate" required /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched4IT" ng-readonly="!weAreIT" /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched4External" ng-readonly="!weAreIT" /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched4Assets" ng-readonly="!weAreIT" /></div>
+	</div>
+	<div class="row justify-content-center">
+		<div class="text-left col-sm-3 tableCell">4 - Deployment</div>
+		<div class="text-center col-sm-2 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched5Business" required /></div>
+		<div class="text-center col-sm-2 tableCell"><input type="date" class="form-control form-control-sm inputCell" ng-model="request.projSched5ExpDate" required /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched5IT" ng-readonly="!weAreIT" /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched5External" ng-readonly="!weAreIT" /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched5Assets" ng-readonly="!weAreIT" /></div>
+	</div>
+	<div class="row justify-content-center">
+		<div class="text-left col-sm-3 tableCell">5 - REX</div>
+		<div class="text-center col-sm-2 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched6Business" required /></div>
+		<div class="text-center col-sm-2 tableCell"><input type="date" class="form-control form-control-sm inputCell" ng-model="request.projSched6ExpDate" required /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched6IT" ng-readonly="!weAreIT" /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched6External" ng-readonly="!weAreIT" /></div>
+		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched6Assets" ng-readonly="!weAreIT" /></div>
+	</div>
+	<div class="row justify-content-center">
+		<div class="text-left col-sm-3 tableCell">TOTAL</div>
+		<div class="text-center col-sm-2 tableCell">{{request.projSched1Business + request.projSched2Business + request.projSched3Business + request.projSched4Business + request.projSched5Business + request.projSched6Business}}</div>
+		<div class="text-center col-sm-2 tableCell"></div>
+		<div class="text-center col-sm-1 tableCell">{{request.projSched1IT + request.projSched2IT + request.projSched3IT + request.projSched4IT + request.projSched5IT + request.projSched6IT}}</div>
+		<div class="text-center col-sm-1 tableCell">{{request.projSched1External + request.projSched2External + request.projSched3External + request.projSched4External + request.projSched5External + request.projSched6External}}</div>
+		<div class="text-center col-sm-1 tableCell">{{request.projSched1Assets + request.projSched2Assets + request.projSched3Assets + request.projSched4Assets + request.projSched5Assets + request.projSched6Assets}}</div>
+	</div>
+
+    <p class="section-title">Contraintes</p>
+	<div class="form-group row">
+		<label for="constraints" class="col-sm-3 col-form-label">Contraintes légales et/ou du groupe</label>
+		<div class="col-sm-9">
+			<textarea class="form-control" ng-model="request.constraints" id="constraints" rows="4" cols="40"></textarea>
+		</div>
+	</div>
+
+	<p><span class="required-field">*</span> Champs obligatoire</p>
+  	<button type="submit" ng-disabled="newRequestForm.$invalid" ng-click="editRequest(request)" class="btn btn-primary">Save</button>
+	<button type="button" ng-click="cancelEdit()" class="btn btn-default">Cancel</button>
+</form>
