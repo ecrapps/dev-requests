@@ -1,4 +1,10 @@
-public/settings/settings.php
+bdd/
+node_modules/
+public/dependencies/
+public/settings/
+public/tmp/
+public/uploads/
 vendor/
 *.lock
 *.doc
+*.txt
