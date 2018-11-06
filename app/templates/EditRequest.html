@@ -20,24 +20,6 @@
 			</select>
 		</div>
 	</div>
-  	<!-- <div class="form-group row">
-		<label for="department" class="col-sm-3 col-form-label">Département <span class="required-field">*</span></label>
-		<div class="col-sm-3">
-			<select class="form-control" 
-					ng-change="displayCostCenter(request.department.id)" 
-					ng-model="request.department" 
-					ng-options="department as department.name for department in departments track by department.id" 
-					id="department">
-				<option value="" disabled>Choisir...</option>
-			</select>
-		</div>
-		<div class="form-group row" ng-if="displayingCostCenter">
-			<label for="cost-center" class="col-sm-4 col-form-label">Cost center</label>
-			<div class="col-sm-6">
-				<input type="text" class="form-control" ng-model="selectedDepartment.costCenter" id="cost-center" disabled />
-			</div>
-		</div>
-	</div> -->
 
 	<p class="section-title">Projet</p>
 	<div class="form-group row">
@@ -64,12 +46,13 @@
 			<textarea class="form-control" ng-model="request.proposedSolutionDescr" id="proposed-solution-descr" rows="4" cols="40" required></textarea>
 		</div>
 	</div>
-	<!-- <div class="form-group row">
+	<div class="form-group row">
 		<label class="col-sm-3 col-form-label" for="added-file">Ajouter un fichier</label>
 		<div class="col">
-			<input type="file" class="form-control-file col-sm-6" ng-model="request.addedFile" id="added-file" files-input />
+			<input type="file" ngf-select ng-model="request.addedFile" name="file">
+			<!-- <input type="file" class="form-control-file col-sm-6" ng-model="request.addedFile" id="added-file" files-input /> -->
 		</div>
-	</div> -->
+	</div>
 
 	<p class="section-title">Gains attendus (en €)</p>
 	<div class="row justify-content-center">
@@ -166,14 +149,6 @@
 		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched1External" ng-readonly="!weAreIT" /></div>
 		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched1Assets" ng-readonly="!weAreIT" /></div>
 	</div>
-	<!-- <div class="row justify-content-center">
-		<div class="text-left col-sm-3 tableCell">2 - Pipeline</div>
-		<div class="text-center col-sm-2 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched2Business" required readonly value="0" /></div>
-		<div class="text-center col-sm-2 tableCell"><input type="date" class="form-control form-control-sm inputCell" ng-model="request.projSched2ExpDate" readonly /></div>
-		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched2IT" ng-readonly="!weAreIT" /></div>
-		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched2External" ng-readonly="!weAreIT" /></div>
-		<div class="text-center col-sm-1 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched2Assets" ng-readonly="!weAreIT" /></div>
-	</div> -->
 	<div class="row justify-content-center">
 		<div class="text-left col-sm-3 tableCell">2 - Analysis &amp; spec</div>
 		<div class="text-center col-sm-2 tableCell"><input type="number" class="form-control form-control-sm inputCell" ng-model="request.projSched3Business" required /></div>

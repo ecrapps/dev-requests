@@ -89,6 +89,15 @@ class RequestController {
 		$datas = new stdClass();
 		$datas->params = json_decode(json_encode($getParsedBody), FALSE);
 
+		if (isset($_FILES['addedFile'])) {
+			$filename = $_FILES['addedFile']['name'];
+			$fileUploadResult = move_uploaded_file($_FILES['addedFile']['tmp_name'], 'uploads/'.$filename);
+		}
+		else {
+			$filename = "";
+			$fileUploadResult = true;
+		}
+
 		$createRequest = "INSERT INTO `requests`  (`applicant`,
 												   `idDepartment`,
 												   `projectName`,
@@ -118,11 +127,6 @@ class RequestController {
 												   `projSched1IT`,
 												   `projSched1External`,
 												   `projSched1Assets`,
-												   /*`projSched2Business`,
-												   `projSched2ExpDate`,
-												   `projSched2IT`,
-												   `projSched2External`,
-												   `projSched2Assets`,*/
 												   `projSched3Business`,
 												   `projSched3ExpDate`,
 												   `projSched3IT`,
@@ -152,7 +156,7 @@ class RequestController {
 								   :currentSituationDescr,
 								   :currentIssueDescr,
 								   :proposedSolutionDescr,
-								   :addedFile,
+								   '".$filename."',
 								   :benInvY1,
 								   :benInvY2,
 								   :benInvY3,
@@ -175,11 +179,6 @@ class RequestController {
 								   :projSched1IT,
 								   :projSched1External,
 								   :projSched1Assets,
-								   /*:projSched2Business,
-								   :projSched2ExpDate,
-								   :projSched2IT,
-								   :projSched2External,
-								   :projSched2Assets,*/
 								   :projSched3Business,
 								   :projSched3ExpDate,
 								   :projSched3IT,
@@ -206,7 +205,7 @@ class RequestController {
 		$createRequestResult = $this->container->db->query($createRequest, $datas);
 		
 		return $response->withStatus(200)
-        				->write(json_encode($createRequestResult,JSON_NUMERIC_CHECK));
+        				->write(json_encode($createRequestResult && $fileUploadResult,JSON_NUMERIC_CHECK));
 	}
 
 	public function updateRequest(Request $request, Response $response, $args){
@@ -214,13 +213,22 @@ class RequestController {
 		$datas = new stdClass();
 		$datas->params = json_decode(json_encode($getParsedBody), FALSE);
 
+		if (isset($_FILES['addedFile'])) {
+			$filename = $_FILES['addedFile']['name'];
+			$fileUploadResult = move_uploaded_file($_FILES['addedFile']['tmp_name'], 'uploads/'.$filename);
+		}
+		else {
+			$filename = "";
+			$fileUploadResult = true;
+		}
+
 		$updateRequest = "UPDATE `requests` SET    `applicant` = :applicant,
 												   `idDepartment` = :idDepartment,
 												   `projectName` = :projectName,
 												   `currentSituationDescr` = :currentSituationDescr,
 												   `currentIssueDescr` = :currentIssueDescr,
 												   `proposedSolutionDescr` = :proposedSolutionDescr,
-												   `addedFile` = :addedFile,
+												   `addedFile` = '".$filename."',
 												   `benInvY1` = :benInvY1,
 												   `benInvY2` = :benInvY2,
 												   `benInvY3` = :benInvY3,
@@ -243,11 +251,6 @@ class RequestController {
 												   `projSched1IT` = :projSched1IT,
 												   `projSched1External` = :projSched1External,
 												   `projSched1Assets` = :projSched1Assets,
-												   /*`projSched2Business` = :projSched2Business,
-												   `projSched2ExpDate` = :projSched2ExpDate,
-												   `projSched2IT` = :projSched2IT,
-												   `projSched2External` = :projSched2External,
-												   `projSched2Assets` = :projSched2Assets,*/
 												   `projSched3Business` = :projSched3Business,
 												   `projSched3ExpDate` = :projSched3ExpDate,
 												   `projSched3IT` = :projSched3IT,
@@ -268,12 +271,12 @@ class RequestController {
 												   `projSched6IT` = :projSched6IT,
 												   `projSched6External` = :projSched6External,
 												   `projSched6Assets` = :projSched6Assets,
-												   `constraints` = :constraints
+												   `constraints` = :constraints 
 							WHERE `requests`.`id` = :idRequest";
 		$updateRequestResult = $this->container->db->query($updateRequest, $datas);
 
 		return $response->withStatus(200)
-        				->write(json_encode($updateRequestResult,JSON_NUMERIC_CHECK));
+						->write(json_encode($updateRequestResult && $fileUploadResult,JSON_NUMERIC_CHECK));
 	}
 
 	public function deleteRequest(Request $request, Response $response, $args){

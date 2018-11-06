@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-	devRequestApp.factory('RequestService', ['$http', 'URL_REQUEST_API', function($http, URL_REQUEST_API) {
+	devRequestApp.factory('RequestService', ['$http', 'URL_REQUEST_API', 'Upload', function($http, URL_REQUEST_API, Upload) {
 		
 		var url_api = URL_REQUEST_API.URL_API;
 		var factory = {};
@@ -54,7 +54,7 @@
 							currentSituationDescr: request.currentSituationDescr,
 							currentIssueDescr: request.currentIssueDescr,
 							proposedSolutionDescr: request.proposedSolutionDescr,
-							addedFile: "",
+							addedFile: request.addedFile,
 							benInvY1: request.benInvY1,
 							benInvY2: request.benInvY2,
 							benInvY3: request.benInvY3,
@@ -77,11 +77,6 @@
 							projSched1IT: request.projSched1IT,
 							projSched1External: request.projSched1External,
 							projSched1Assets: request.projSched1Assets,
-							/*projSched2Business: request.projSched2Business,
-							projSched2ExpDate: request.projSched2ExpDate,
-							projSched2IT: request.projSched2IT,
-							projSched2External: request.projSched2External,
-							projSched2Assets: request.projSched2Assets,*/
 							projSched3Business: request.projSched3Business,
 							projSched3ExpDate: d3,
 							projSched3IT: request.projSched3IT,
@@ -106,7 +101,7 @@
 							idStatus: 1
 						}
 
-			return $http({
+			return Upload.upload({
 				method: "POST",
 				url: url_api + "createRequest",
 				data: data
@@ -128,12 +123,12 @@
 			var data = {
 							idRequest: request.id,
 							applicant: request.applicant,
+							addedFile: request.addedFile,
 							idDepartment: request.department.id,
 							projectName: request.projectName,
 							currentSituationDescr: request.currentSituationDescr,
 							currentIssueDescr: request.currentIssueDescr,
 							proposedSolutionDescr: request.proposedSolutionDescr,
-							addedFile: "",
 							benInvY1: request.benInvY1,
 							benInvY2: request.benInvY2,
 							benInvY3: request.benInvY3,
@@ -156,11 +151,6 @@
 							projSched1IT: request.projSched1IT,
 							projSched1External: request.projSched1External,
 							projSched1Assets: request.projSched1Assets,
-							/*projSched2Business: request.projSched2Business,
-							projSched2ExpDate: request.projSched2ExpDate,
-							projSched2IT: request.projSched2IT,
-							projSched2External: request.projSched2External,
-							projSched2Assets: request.projSched2Assets,*/
 							projSched3Business: request.projSched3Business,
 							projSched3ExpDate: d3,
 							projSched3IT: request.projSched3IT,
@@ -183,9 +173,9 @@
 							projSched6Assets: request.projSched6Assets,
 							constraints: request.constraints
 						}
-
-			return $http({
-				method: "PUT",
+			
+			return Upload.upload({
+				method: "POST",
 				url: url_api + "updateRequest",
 				data: data
 			});

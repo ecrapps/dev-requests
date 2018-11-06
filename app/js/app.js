@@ -2,7 +2,7 @@
 
 agGrid.initialiseAgGridWithAngular1(angular);
 
-var devRequestApp = angular.module('devRequestApp', ['ngRoute', 'agGrid', 'toaster', 'ngAnimate'])
+var devRequestApp = angular.module('devRequestApp', ['ngRoute', 'agGrid', 'toaster', 'ngAnimate', 'ngFileUpload'])
 	.config(function($routeProvider){
 		$routeProvider
 			/*

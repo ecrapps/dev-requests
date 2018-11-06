@@ -2,7 +2,7 @@
 	'use strict';
 
 	devRequestApp.controller('EditRequestController',
-		function EditRequestController($rootScope, $scope, $location, $routeParams, RequestService, DepartmentService, StatusService, MainService, toaster, FileService){
+		function EditRequestController($rootScope, $scope, $location, $routeParams, RequestService, DepartmentService, StatusService, MainService, toaster, Upload){
 
 			$scope.cancelEdit = cancelEdit;
 			$scope.displayCostCenter = displayCostCenter;
@@ -29,7 +29,32 @@
 						});
 			} else {
 			// In case of creation of a new request
-				$scope.request = {};
+				$scope.request = {
+					department: {
+						id: 10,
+					},
+					projectName: "a",
+					currentSituationDescr: "a",
+					currentIssueDescr: "a",
+					proposedSolutionDescr: "a",
+					benInvY1: 1,
+					benCostY1: 1,
+					benBenefY1: 1,
+					budgetEstimated: 1,
+					budgetAvailable: 1,
+					projectManager: "a",
+					projectManagerBusiness: "a",
+					projSched1Business: 1000,
+					projSched3Business: 1000,
+					projSched4Business: 1000,
+					projSched5Business: 1000,
+					projSched6Business: 1000,
+				};
+				$scope.request.projSched1ExpDate = new Date("10/01/2018");
+				$scope.request.projSched3ExpDate = new Date("10/01/2018");
+				$scope.request.projSched4ExpDate = new Date("10/01/2018");
+				$scope.request.projSched5ExpDate = new Date("10/01/2018");
+				$scope.request.projSched6ExpDate = new Date("10/01/2018");
 				$scope.request.applicant = $rootScope.user.name;
 			}
 
@@ -65,7 +90,6 @@
 			function createRequest(request) {
 				RequestService.createRequest(request)
 					.then(function mySuccess(response) {
-						//FileService.uploadFile();
 						toaster.pop({
 										type: 'success',
 						                title: 'Demande sauvegardée',

@@ -1,0 +1,14 @@
+*** public/settings/settings.php
+<?php
+	
+	$config['displayErrorDetails'] = true;
+	$config['addContentLengthHeader'] = false;
+
+	$config['db']['host']   = "localhost";
+	$config['db']['user']   = "root";//"root"
+	$config['db']['pass']   = "HrGGGqiuaxcdKgZW";//""
+	$config['db']['dbname'] = "dev-requests";//"dev-requests"
+
+
+*** app/js/app.js
+var url = "http://vz26824.iservices.db.de/dev-requests/public/index.php/dev-requests/";
