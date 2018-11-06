@@ -6,7 +6,7 @@
 	$app->group('/dev-requests', function () use ($app) {
 	    
 		/*
-		 * 	LOGN
+		 * 	LOGIN
 		 */
 
 	    // Login
@@ -27,7 +27,7 @@
 		$app->post('/createRequest', '\RequestController:createRequest');
 
 		// Update a request
-		$app->put('/updateRequest', '\RequestController:updateRequest');
+		$app->post('/updateRequest', '\RequestController:updateRequest');
 
 		// Delete a request
 		$app->delete('/deleteRequest', '\RequestController:deleteRequest');
@@ -99,4 +99,4 @@
 		$app->delete('/deleteUser', '\UserController:deleteUser');
 
 
-	}); //->add(new IsSessionAliveMiddleware($container));
+	});
