@@ -1,6 +1,6 @@
 bdd/
 node_modules/
-public/dependencies/
+public/dependencies/fpdf
 public/settings/
 public/tmp/
 public/uploads/
