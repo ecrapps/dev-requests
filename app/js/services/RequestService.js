@@ -123,7 +123,6 @@
 			var data = {
 							idRequest: request.id,
 							idApplicant: request.applicant.id,
-							addedFile: request.addedFile,
 							idDepartment: request.department.id,
 							projectName: request.projectName,
 							currentSituationDescr: request.currentSituationDescr,
@@ -177,7 +176,8 @@
 			return Upload.upload({
 				method: "POST",
 				url: url_api + "updateRequest",
-				data: data
+				data: data,
+				file: request.addedFile
 			});
 		}
 

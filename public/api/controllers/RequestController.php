@@ -115,9 +115,22 @@ class RequestController {
 		$datas = new stdClass();
 		$datas->params = json_decode(json_encode($getParsedBody), FALSE);
 
+		$idApplicant = filter_var($getParsedBody['idApplicant'], FILTER_SANITIZE_STRING);
+		$getApplicant = "SELECT `userName`  FROM `users` WHERE `id` = '".$idApplicant."'";
+		$getApplicantResult = $this->container->db->query($getApplicant, $datas);
+
+		$applicantUsername = $getApplicantResult[0]['userName'];
+		$annee = date("Y");
+
+		$uploadFolder = 'uploads/'.$annee.'/'.$applicantUsername;
+
+		if (!file_exists($uploadFolder)) {
+			mkdir($uploadFolder, 0777, true);
+		}
+
 		if (isset($_FILES['file'])) {
-			$filename = $_FILES['file']['name'];
-			$fileUploadResult = move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/'.$filename);
+			$filename = $uploadFolder.'/'.$_FILES['file']['name'];
+			$fileUploadResult = move_uploaded_file($_FILES['file']['tmp_name'], $filename);
 		}
 		else {
 			$filename = "";
@@ -239,9 +252,22 @@ class RequestController {
 		$datas = new stdClass();
 		$datas->params = json_decode(json_encode($getParsedBody), FALSE);
 
-		if (isset($_FILES['addedFile'])) {
-			$filename = $_FILES['addedFile']['name'];
-			$fileUploadResult = move_uploaded_file($_FILES['addedFile']['tmp_name'], 'uploads/'.$filename);
+		$idApplicant = filter_var($getParsedBody['idApplicant'], FILTER_SANITIZE_STRING);
+		$getApplicant = "SELECT `userName`  FROM `users` WHERE `id` = '".$idApplicant."'";
+		$getApplicantResult = $this->container->db->query($getApplicant, $datas);
+
+		$applicantUsername = $getApplicantResult[0]['userName'];
+		$annee = date("Y");
+
+		$uploadFolder = 'uploads/'.$annee.'/'.$applicantUsername;
+
+		if (!file_exists($uploadFolder)) {
+			mkdir($uploadFolder, 0777, true);
+		}
+
+		if (isset($_FILES['file'])) {
+			$filename = $uploadFolder.'/'.$_FILES['file']['name'];
+			$fileUploadResult = move_uploaded_file($_FILES['file']['tmp_name'], $filename);
 		}
 		else {
 			$filename = "";
@@ -352,8 +378,8 @@ class RequestController {
 	}
 
 	public function generatePDF(Request $request, Response $response, $args){
-		require_once("/var/www/html/dev-requests/public/dependencies/fpdf/fpdf.php");
-		require_once("/var/www/html/dev-requests/public/dependencies/fpdf/fpdi.php");
+		require_once("./dependencies/fpdf/fpdf.php");//require_once("/var/www/html/dev-requests/public/dependencies/fpdf/fpdf.php");
+		require_once("./dependencies/fpdf/fpdi.php");//require_once("/var/www/html/dev-requests/public/dependencies/fpdf/fpdi.php");
 
 		$getQueryParams = $request->getQueryParams();
 		$datas = new stdClass();
@@ -390,10 +416,10 @@ class RequestController {
 
 		$request['applicant'] = $getApplicantResult[0]['name'];
 
-		$chemin_complet = "/var/www/html/dev-requests/public/tmp/tmp.pdf";
+		$chemin_complet = "./tmp/tmp.pdf";//$chemin_complet = "/var/www/html/dev-requests/public/tmp/tmp.pdf";
 
 		$PDF = new FPDI(); // Création de l'instance PDF
-		$pageCount = $PDF->setSourceFile("/var/www/html/dev-requests/public/dependencies/includes/Fiche info projet.pdf"); // On définit notre pdf source
+		$pageCount = $PDF->setSourceFile("./dependencies/includes/Fiche info projet.pdf"); // On définit notre pdf source //$pageCount = $PDF->setSourceFile("/var/www/html/dev-requests/public/dependencies/includes/Fiche info projet.pdf"); // On définit notre pdf source
 		$tplIdx = $PDF->importPage(1); // On récupère la page 1 de la source
 		$PDF->addPage(); // On crée une page à notre pdf toujours vierge
 		$PDF->useTemplate($tplIdx); // Sur cette page on dessine notre pdf source
