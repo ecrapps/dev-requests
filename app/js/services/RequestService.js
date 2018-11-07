@@ -48,13 +48,12 @@
 			d6.setTime( d6.getTime() - d6.getTimezoneOffset()*60*1000 );
 
 			var data = {
-							applicant: request.applicant,
+							idApplicant: request.applicant.id,
 							idDepartment: request.department.id,
 							projectName: request.projectName,
 							currentSituationDescr: request.currentSituationDescr,
 							currentIssueDescr: request.currentIssueDescr,
 							proposedSolutionDescr: request.proposedSolutionDescr,
-							addedFile: request.addedFile,
 							benInvY1: request.benInvY1,
 							benInvY2: request.benInvY2,
 							benInvY3: request.benInvY3,
@@ -104,7 +103,8 @@
 			return Upload.upload({
 				method: "POST",
 				url: url_api + "createRequest",
-				data: data
+				data: data,
+				file: request.addedFile
 			});
 		}
 
@@ -122,7 +122,7 @@
 
 			var data = {
 							idRequest: request.id,
-							applicant: request.applicant,
+							idApplicant: request.applicant.id,
 							addedFile: request.addedFile,
 							idDepartment: request.department.id,
 							projectName: request.projectName,

@@ -36,7 +36,7 @@
 			   {
 			   		headerName:   "Demandeur", 
 			   		width: 		  150, 
-			   		field: 		  "applicant", 
+			   		field: 		  "applicant.name", 
 			   		filter: 	  'agTextColumnFilter'
 			   },
 			   {
@@ -63,7 +63,7 @@
 			   		headerName:   "", 
 			   		width: 		  25, 
 			   		suppressFilter: true,
-			   		template: 	  "<span ng-if=\"weAreIT || (data.status.id===1 && data.applicant===\'"+$rootScope.user.name+"\')\"><a href='#/editRequest/{{data.id}}' title='Modifier'><i class='far fa-edit'></i></a></span>"
+			   		template: 	  "<span ng-if=\"weAreIT || (data.status.id===1 && data.applicant.name===\'"+$rootScope.user.name+"\')\"><a href='#/editRequest/{{data.id}}' title='Modifier'><i class='far fa-edit'></i></a></span>"
 			   },
 			   {
 			   		headerName:   "", 
@@ -81,7 +81,7 @@
 			   		headerName:   "", 
 			   		width: 		  25, 
 			   		suppressFilter: true,
-			   		template: 	  "<span ng-if=\"weAreIT || (data.status.id===1 && data.applicant===\'"+$rootScope.user.name+"\')\"><a href='#/getRequests/' ng-click='deleteRequest(data.id)' title='Supprimer'><i class='far fa-trash-alt'></i></a></span>"
+			   		template: 	  "<span ng-if=\"weAreIT || (data.status.id===1 && data.applicant.name===\'"+$rootScope.user.name+"\')\"><a href='#/getRequests/' ng-click='deleteRequest(data.id)' title='Supprimer'><i class='far fa-trash-alt'></i></a></span>"
 			   },
 			   // Data to export - but not display
 			   {
@@ -443,7 +443,7 @@
 				var params = {
 					columnKeys: ['id',
 								 'dateCreated',
-								 'applicant',
+								 'applicant.name',
 								 'department.name',
 								 'projectName',
 								 'currentSituationDescr',

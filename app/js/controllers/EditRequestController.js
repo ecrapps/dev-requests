@@ -55,7 +55,7 @@
 				$scope.request.projSched4ExpDate = new Date("10/01/2018");
 				$scope.request.projSched5ExpDate = new Date("10/01/2018");
 				$scope.request.projSched6ExpDate = new Date("10/01/2018");
-				$scope.request.applicant = $rootScope.user.name;
+				$scope.request.applicant = $rootScope.user;
 			}
 
 			// Call to API to get all departements

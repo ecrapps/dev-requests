@@ -42,6 +42,19 @@ class RequestController {
 			if (sizeof($getRequestStatusResult) > 0) {
 				$getRequestsResult[$i]['status'] = $getRequestStatusResult[0];
 			}
+
+			// Add applicant information to each element
+			$getRequestApplicant = "SELECT  `id`, 
+											`userName`, 
+											`name`, 
+											`userGroup` 
+									FROM `users` 
+									WHERE `id` = '".$getRequestsResult[$i]['idApplicant']."'";
+			$getRequestApplicantResult = $this->container->db->query($getRequestApplicant);
+
+			if (sizeof($getRequestApplicantResult) > 0) {
+				$getRequestsResult[$i]['applicant'] = $getRequestApplicantResult[0];
+			}
 		}
 
 		return $response->withStatus(200)
@@ -58,7 +71,7 @@ class RequestController {
 					   WHERE `requests` . `id` = :idRequest";
 		$getRequestResult = $this->container->db->query($getRequest, $datas);
 
-		// Add department info to each element
+		// Add department info to this element
 		$getRequestDepartment = "SELECT * 
 								 FROM `departments` 
 								 WHERE `id` = '".$getRequestResult[0]['idDepartment']."' 
@@ -69,7 +82,7 @@ class RequestController {
 			$getRequestResult[0]['department'] = $getRequestDepartmentsResult[0];
 		}
 
-		// Add status information to each element
+		// Add status information to this element
 		$getRequestStatus = "SELECT * 
 							 FROM `statuses` 
 							 WHERE `id` = '".$getRequestResult[0]['idStatus']."' 
@@ -78,6 +91,19 @@ class RequestController {
 
 		if (sizeof($getRequestStatusResult) > 0) {
 			$getRequestResult[0]['status'] = $getRequestStatusResult[0];
+		}
+
+		// Add applicant information to this element
+		$getRequestApplicant = "SELECT  `id`, 
+										`userName`, 
+										`name`, 
+										`userGroup` 
+								FROM `users` 
+								WHERE `id` = '".$getRequestResult[0]['idApplicant']."'";
+		$getRequestApplicantResult = $this->container->db->query($getRequestApplicant);
+
+		if (sizeof($getRequestApplicantResult) > 0) {
+			$getRequestResult[0]['applicant'] = $getRequestApplicantResult[0];
 		}
 
 		return $response->withStatus(200)
@@ -89,16 +115,16 @@ class RequestController {
 		$datas = new stdClass();
 		$datas->params = json_decode(json_encode($getParsedBody), FALSE);
 
-		if (isset($_FILES['addedFile'])) {
-			$filename = $_FILES['addedFile']['name'];
-			$fileUploadResult = move_uploaded_file($_FILES['addedFile']['tmp_name'], 'uploads/'.$filename);
+		if (isset($_FILES['file'])) {
+			$filename = $_FILES['file']['name'];
+			$fileUploadResult = move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/'.$filename);
 		}
 		else {
 			$filename = "";
 			$fileUploadResult = true;
 		}
 
-		$createRequest = "INSERT INTO `requests`  (`applicant`,
+		$createRequest = "INSERT INTO `requests`  (`idApplicant`,
 												   `idDepartment`,
 												   `projectName`,
 												   `currentSituationDescr`,
@@ -150,7 +176,7 @@ class RequestController {
 												   `constraints`,
 												   `idStatus`,
 												   `dateNewStatus`) 
-						   VALUES (:applicant,
+						   VALUES (:idApplicant,
 								   :idDepartment,
 								   :projectName,
 								   :currentSituationDescr,
@@ -222,7 +248,7 @@ class RequestController {
 			$fileUploadResult = true;
 		}
 
-		$updateRequest = "UPDATE `requests` SET    `applicant` = :applicant,
+		$updateRequest = "UPDATE `requests` SET    `idApplicant` = :idApplicant,
 												   `idDepartment` = :idDepartment,
 												   `projectName` = :projectName,
 												   `currentSituationDescr` = :currentSituationDescr,
@@ -340,19 +366,29 @@ class RequestController {
 
 		$request = $getRequestResult[0];
 
-		$getDepartment = "SELECT name 
+		// Add department information to this element
+		$getDepartment = "SELECT `name` 
 					      FROM `departments` 
 					      WHERE `departments`.`id` = ".$request['idDepartment'];
 		$getDepartmentResult = $this->container->db->query($getDepartment, $datas);
 
 		$request['department'] = $getDepartmentResult[0]['name'];
 
-		$getStatus = "SELECT label 
+		// Add status information to this element
+		$getStatus = "SELECT `label` 
 					  FROM `statuses` 
 					  WHERE `statuses`.`id` = ".$request['idStatus'];
 		$getStatusResult = $this->container->db->query($getStatus, $datas);
 
 		$request['status'] = $getStatusResult[0]['label'];
+
+		// Add applicant information to this element
+		$getApplicant = "SELECT `name` 
+						FROM `users` 
+						WHERE `users`.`id` = ".$request['idApplicant'];
+		$getApplicantResult = $this->container->db->query($getApplicant, $datas);
+
+		$request['applicant'] = $getApplicantResult[0]['name'];
 
 		$chemin_complet = "/var/www/html/dev-requests/public/tmp/tmp.pdf";
 

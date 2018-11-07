@@ -4,7 +4,8 @@
 	<div class="form-group row">
 		<label for="applicant" class="col-sm-3 col-form-label">Nom complet du demandeur <span class="required-field">*</span></label>
 		<div class="col-sm-3">
-			<input type="text" class="form-control" ng-model="request.applicant" id="applicant" required capitalize readonly />
+			<input type="text" class="form-control" ng-model="request.applicant.id" id="applicant" required readonly ng-hide="true" />
+			<input type="text" class="form-control" ng-model="request.applicant.name" id="applicantName" required readonly />
 		</div>
 	</div>
   	<div class="form-group row">

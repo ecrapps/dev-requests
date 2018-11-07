@@ -23,7 +23,7 @@
 	  $('#status').html(request.status.label);
 	  var array = request.dateNewStatus.substr(0, 10).split("-").map(function(value, index) {return [value];});
 	  $('#dateNewStatus').html(array[2] + "/" + array[1] + "/" + array[0]);
-	  $('#applicant').html(request.applicant);
+	  $('#applicant').html(request.applicant.name);
 	  $('#department').html(request.department.name);
 
 	  // Projet
