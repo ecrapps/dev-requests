@@ -75,7 +75,7 @@
 			   		headerName:   "", 
 			   		width: 		  25, 
 			   		suppressFilter: true,
-			   		template: 	  ""//"<span><a href='#' title='Télécharger la pièce jointe'><i class='fas fa-paperclip'></i></a></span>"
+			   		template: 	  "<span><a href='../public/uploads/{{data.addedFile}}' ng-if='data.addedFile' download='{{data.addedFile}}' title='Télécharger la pièce jointe'><i class='fas fa-paperclip'></i></a></span>"
 			   },
 			   {
 			   		headerName:   "", 

@@ -122,15 +122,16 @@ class RequestController {
 		$applicantUsername = $getApplicantResult[0]['userName'];
 		$annee = date("Y");
 
-		$uploadFolder = 'uploads/'.$annee.'/'.$applicantUsername;
+		$uploadFolder = 'uploads';
 
 		if (!file_exists($uploadFolder)) {
 			mkdir($uploadFolder, 0777, true);
 		}
 
 		if (isset($_FILES['file'])) {
-			$filename = $uploadFolder.'/'.$_FILES['file']['name'];
-			$fileUploadResult = move_uploaded_file($_FILES['file']['tmp_name'], $filename);
+			$filename = $annee.'/'.$applicantUsername.'/'.$_FILES['file']['name'];
+			$filepath = $uploadFolder.'/'.$filename;
+			$fileUploadResult = move_uploaded_file($_FILES['file']['tmp_name'], $filepath);
 		}
 		else {
 			$filename = "";
@@ -259,15 +260,16 @@ class RequestController {
 		$applicantUsername = $getApplicantResult[0]['userName'];
 		$annee = date("Y");
 
-		$uploadFolder = 'uploads/'.$annee.'/'.$applicantUsername;
+		$uploadFolder = 'uploads';
 
 		if (!file_exists($uploadFolder)) {
 			mkdir($uploadFolder, 0777, true);
 		}
 
 		if (isset($_FILES['file'])) {
-			$filename = $uploadFolder.'/'.$_FILES['file']['name'];
-			$fileUploadResult = move_uploaded_file($_FILES['file']['tmp_name'], $filename);
+			$filename = $annee.'/'.$applicantUsername.'/'.$_FILES['file']['name'];
+			$filepath = $uploadFolder.'/'.$filename;
+			$fileUploadResult = move_uploaded_file($_FILES['file']['tmp_name'], $filepath);
 		}
 		else {
 			$filename = "";
