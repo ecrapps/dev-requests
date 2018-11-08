@@ -122,16 +122,15 @@ class RequestController {
 		$applicantUsername = $getApplicantResult[0]['userName'];
 		$annee = date("Y");
 
-		$uploadFolder = 'uploads';
+		$uploadFolder = 'uploads/'.$annee.'/'.$applicantUsername.'/';
 
 		if (!file_exists($uploadFolder)) {
 			mkdir($uploadFolder, 0777, true);
 		}
 
 		if (isset($_FILES['file'])) {
-			$filename = $annee.'/'.$applicantUsername.'/'.$_FILES['file']['name'];
-			$filepath = $uploadFolder.'/'.$filename;
-			$fileUploadResult = move_uploaded_file($_FILES['file']['tmp_name'], $filepath);
+			$filename = $_FILES['file']['name'];
+			$fileUploadResult = move_uploaded_file($_FILES['file']['tmp_name'], $uploadFolder.'/'.$filename);
 		}
 		else {
 			$filename = "";
@@ -144,6 +143,7 @@ class RequestController {
 												   `currentSituationDescr`,
 												   `currentIssueDescr`,
 												   `proposedSolutionDescr`,
+												   `filePath`,
 												   `addedFile`,
 												   `benInvY1`,
 												   `benInvY2`,
@@ -196,6 +196,7 @@ class RequestController {
 								   :currentSituationDescr,
 								   :currentIssueDescr,
 								   :proposedSolutionDescr,
+								   '".$uploadFolder."',
 								   '".$filename."',
 								   :benInvY1,
 								   :benInvY2,
@@ -260,16 +261,15 @@ class RequestController {
 		$applicantUsername = $getApplicantResult[0]['userName'];
 		$annee = date("Y");
 
-		$uploadFolder = 'uploads';
+		$uploadFolder = 'uploads/'.$annee.'/'.$applicantUsername.'/';
 
 		if (!file_exists($uploadFolder)) {
 			mkdir($uploadFolder, 0777, true);
 		}
 
 		if (isset($_FILES['file'])) {
-			$filename = $annee.'/'.$applicantUsername.'/'.$_FILES['file']['name'];
-			$filepath = $uploadFolder.'/'.$filename;
-			$fileUploadResult = move_uploaded_file($_FILES['file']['tmp_name'], $filepath);
+			$filename = $_FILES['file']['name'];
+			$fileUploadResult = move_uploaded_file($_FILES['file']['tmp_name'], $uploadFolder.'/'.$filename);
 		}
 		else {
 			$filename = "";
@@ -282,6 +282,7 @@ class RequestController {
 												   `currentSituationDescr` = :currentSituationDescr,
 												   `currentIssueDescr` = :currentIssueDescr,
 												   `proposedSolutionDescr` = :proposedSolutionDescr,
+												   `filePath` = '".$uploadFolder."',
 												   `addedFile` = '".$filename."',
 												   `benInvY1` = :benInvY1,
 												   `benInvY2` = :benInvY2,

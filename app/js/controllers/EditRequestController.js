@@ -11,6 +11,7 @@
 		    var ObjWeAreIT = MainService.getWeAreIT($location);
 			$scope.weAreIT = ObjWeAreIT.weAreIT;
 			$scope.basePath = ObjWeAreIT.basePath;
+			$scope.currentFile = "";
 
 			// In case of edition of an existing request
 			if (typeof $routeParams.idRequest !== 'undefined'){
@@ -23,6 +24,7 @@
 							$scope.request.projSched4ExpDate = new Date($scope.request.projSched4ExpDate);
 							$scope.request.projSched5ExpDate = new Date($scope.request.projSched5ExpDate);
 							$scope.request.projSched6ExpDate = new Date($scope.request.projSched6ExpDate);
+							$scope.currentFile = $scope.request.addedFile;
 							console.log("getRequest succeeded");
 						}, function myError(reason) {
 							console.log("getRequest failed");
