@@ -437,6 +437,7 @@
 		    };
 		    // end ag-grid data
 
+			getStatuses();
 			getRequests();
 
 			function exportDataAsCsv() {
@@ -540,6 +541,15 @@
 					});
 			}
 
+			function getStatuses() {
+				StatusService.getStatuses()
+					.then(function mySuccess(response) {
+						$scope.statuses = response.data;
+					}, function myError(reason) {
+						console.log("getStatuses failed");
+					});
+			}
+
 			function setRequestStatus(idRequest, idStatus) {
 				RequestService.setRequestStatus(idRequest, idStatus)
 					.then(function mySuccess(response) {
@@ -553,20 +563,13 @@
 				setRequestStatus(idRequest, idNewStatus);
 			}
 
-			function toggleStatusChanged(idRequest) {
-				$scope.statusChanged[idRequest] = !$scope.statusChanged[idRequest];
+			function toggleStatusChanged(idRequest, state) {
+				$scope.statusChanged[idRequest] = state;
 			}
 
 			// ag-grid methods
 			function statusCellRendererFunc() {
-				StatusService.getStatuses()
-					.then(function mySuccess(response) {
-						$scope.statuses = response.data;
-					}, function myError(reason) {
-						console.log("getStatuses failed");
-					});
-
-				return "<span ng-if=\"weAreIT\"><select ng-init=\"newStatus.id=data.status.id\" ng-change=\"toggleStatusChanged(data.id)\" style=\"width:100px\" ng-model=\"newStatus\" ng-options=\"status as status.label for status in statuses track by status.id\"><option value=\"\" disabled>Choisissez un statut</option></select><span ng-if='statusChanged[data.id]'>&nbsp;&nbsp;<a href=\"#/getRequests/\" ng-click=\"saveStatus(data.id, newStatus.id)\"><i class=\"far fa-save\"></i></a></span></span><span ng-show=\"!weAreIT\">{{data.status.label}}</span>";
+				return "<span ng-if=\"weAreIT\"><select ng-init=\"newStatus.id=data.status.id\" ng-change=\"newStatus.id!=data.status.id ? toggleStatusChanged(data.id, true) : toggleStatusChanged(data.id, false)\" style=\"width:100px\" ng-model=\"newStatus\" ng-options=\"status as status.label for status in statuses track by status.id\"><option value=\"\" disabled>Choisissez un statut</option></select><span ng-if='statusChanged[data.id]'>&nbsp;&nbsp;<a href=\"#/getRequests/\" ng-click=\"saveStatus(data.id, newStatus.id)\"><i class=\"far fa-save\"></i></a></span></span><span ng-show=\"!weAreIT\">{{data.status.label}}</span>";
 			}
 			// end ag-grid methods
 		}
