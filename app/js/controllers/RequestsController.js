@@ -7,6 +7,7 @@
 			$scope.exportDataAsCsv = exportDataAsCsv;
 		    $scope.generatePDF = generatePDF;
 		    var getRequests = getRequests;
+		    var getStatuses = getStatuses;
 		    $scope.saveStatus = saveStatus;
 		    var setRequestStatus = setRequestStatus;
 		    var ObjWeAreIT = MainService.getWeAreIT($location);
