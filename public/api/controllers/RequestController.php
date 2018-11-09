@@ -346,6 +346,15 @@ class RequestController {
 		$getQueryParams = $request->getQueryParams();
 		$datas = new stdClass();
 		$datas->params = json_decode(json_encode($getQueryParams), FALSE);
+		
+		$getAddedFile = "SELECT `addedFile`, `filePath`  FROM `requests` WHERE `id` = '".$_GET['idRequest']."'";
+		$getAddedFileResult = $this->container->db->query($getAddedFile);
+		$filename = $getAddedFileResult[0]['addedFile'];
+		$filepath = $getAddedFileResult[0]['filePath'];
+
+		if ( $filename && (file_exists($filepath.'/'.$filename)) ) {
+			unlink($filepath.'/'.$filename);
+		}
 
 		$deleteRequest = "DELETE FROM `requests` WHERE `requests` . `id` = :idRequest";
 		$deleteRequestResult = $this->container->db->query($deleteRequest, $datas);
