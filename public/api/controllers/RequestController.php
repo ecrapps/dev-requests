@@ -116,23 +116,24 @@ class RequestController {
 		$datas->params = json_decode(json_encode($getParsedBody), FALSE);
 
 		$idApplicant = filter_var($getParsedBody['idApplicant'], FILTER_SANITIZE_STRING);
+
 		$getApplicant = "SELECT `userName`  FROM `users` WHERE `id` = '".$idApplicant."'";
 		$getApplicantResult = $this->container->db->query($getApplicant, $datas);
-
 		$applicantUsername = $getApplicantResult[0]['userName'];
-		$annee = date("Y");
-
-		$uploadFolder = 'uploads/'.$annee.'/'.$applicantUsername.'/';
-
-		if (!file_exists($uploadFolder)) {
-			mkdir($uploadFolder, 0777, true);
-		}
 
 		if (isset($_FILES['file'])) {
+			$annee = date("Y");
+			$uploadFolder = 'uploads/'.$annee.'/'.$applicantUsername;
 			$filename = $_FILES['file']['name'];
+
+			if (!file_exists($uploadFolder)) {
+				mkdir($uploadFolder, 0777, true);
+			}
+
 			$fileUploadResult = move_uploaded_file($_FILES['file']['tmp_name'], $uploadFolder.'/'.$filename);
 		}
 		else {
+			$uploadFolder = "";
 			$filename = "";
 			$fileUploadResult = true;
 		}
@@ -255,23 +256,30 @@ class RequestController {
 		$datas->params = json_decode(json_encode($getParsedBody), FALSE);
 
 		$idApplicant = filter_var($getParsedBody['idApplicant'], FILTER_SANITIZE_STRING);
+
 		$getApplicant = "SELECT `userName`  FROM `users` WHERE `id` = '".$idApplicant."'";
-		$getApplicantResult = $this->container->db->query($getApplicant, $datas);
-
+		$getApplicantResult = $this->container->db->query($getApplicant);
 		$applicantUsername = $getApplicantResult[0]['userName'];
-		$annee = date("Y");
-
-		$uploadFolder = 'uploads/'.$annee.'/'.$applicantUsername.'/';
-
-		if (!file_exists($uploadFolder)) {
-			mkdir($uploadFolder, 0777, true);
-		}
 
 		if (isset($_FILES['file'])) {
+			$idRequest = filter_var($getParsedBody['idRequest'], FILTER_SANITIZE_STRING);
+
+			$getCurrentAddedFile = "SELECT `addedFile`  FROM `requests` WHERE `id` = '".$idRequest."'";
+			$getCurrentAddedFileResult = $this->container->db->query($getCurrentAddedFile);
+			$currentAddedFile = $getCurrentAddedFileResult[0]['addedFile'];
+
+			$annee = date("Y");
+			$uploadFolder = 'uploads/'.$annee.'/'.$applicantUsername;
 			$filename = $_FILES['file']['name'];
+
+			if ( $currentAddedFile && (file_exists($uploadFolder.'/'.$currentAddedFile)) ) {
+				unlink($uploadFolder.'/'.$currentAddedFile);
+			}
+			
 			$fileUploadResult = move_uploaded_file($_FILES['file']['tmp_name'], $uploadFolder.'/'.$filename);
 		}
 		else {
+			$uploadFolder = "";
 			$filename = "";
 			$fileUploadResult = true;
 		}
