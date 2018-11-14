@@ -107,3 +107,25 @@ input::-webkit-inner-spin-button {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+/* Navbar */
+.dropdown-toggle {
+    cursor: pointer;
+}
+
+/* Page-list Header */
+.header-list-page {
+    margin-bottom: 15px;
+}
+.header-list-page h1 {
+    display: inline;
+}
+.header-list-page .badge {
+    margin-left: 3%;
+    margin-top: 15px;
+}
+
+.badge {
+    padding: 5px 5px 15px 5px;
+    height: 1rem;
+}

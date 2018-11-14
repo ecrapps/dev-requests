@@ -12,7 +12,12 @@ class UserController {
 	}
 	
 	public function getUsers(Request $request, Response $response, $args){
-		$getUsers = "SELECT * FROM `users` ORDER BY `name` ASC";
+		$getUsers = "SELECT `id`, 
+							`userName`, 
+							`name`, 
+							`userGroup` 
+						FROM `users` 
+						ORDER BY `name` ASC";
 		$getUsersResult = $this->container->db->query($getUsers);
 
 		return $response->withStatus(200)

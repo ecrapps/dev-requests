@@ -13,9 +13,6 @@
 			$rootScope.user.name = "";
 			$rootScope.user.userName = "";
 			$rootScope.user.groupIsIT = false;
-
-		    var ObjWeAreIT = MainService.getWeAreIT($location);
-			$rootScope.weAreIT = ObjWeAreIT.weAreIT;
 		}
 	);
 })();

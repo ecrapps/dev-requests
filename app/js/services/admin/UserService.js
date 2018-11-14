@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-	devRequestApp.factory('UsersService', ['$http', 'URL_REQUEST_API', function($http, URL_REQUEST_API) {
+	devRequestApp.factory('UserService', ['$http', 'URL_REQUEST_API', function($http, URL_REQUEST_API) {
 
 		
 		var url_api = URL_REQUEST_API.URL_API;

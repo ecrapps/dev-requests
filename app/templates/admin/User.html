@@ -1,0 +1,43 @@
+<div class="container">
+	<div class="row header-list-page">
+		<h1>Utilisateurs</h1>
+		<a  class="badge badge-success"
+			href="#/admin/editUser">Ajouter</a>
+	</div>
+	<div class="row search-text justify-content-end">
+		<input class="form-control col-sm-2" type="text" ng-model="searchText" placeholder="Rechercher" />
+	</div>
+	<br />
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th style="width: 5%" scope="col">#</th>
+				<th style="width: 20%" scope="col">Username</th>
+				<th style="width: 20%" scope="col">Nom</th>
+				<th style="width: 15%" scope="col">Groupe</th>
+				<th style="width: 5%" scope="col"></th>
+				<th style="width: 5%" scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="u in users | filter:searchText">
+				<th scope="row">{{ u.id }}</th>
+				<td>{{ u.userName }}</td>
+				<td>{{ u.name }}</td>
+				<td>{{ u.userGroup }}</td>
+				<td>
+					<a  class="badge badge-info" 
+						href="#/admin/editUser/{{ u.id }}">Editer</a>
+				</td>
+				<td>
+					<a 
+						class="badge badge-primary"
+						href="#/admin/user"
+						ng-click="deleteUser(u.id)">
+						Supprimer
+					</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

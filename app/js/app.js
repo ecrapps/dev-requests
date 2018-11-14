@@ -49,12 +49,22 @@ var devRequestApp = angular.module('devRequestApp', ['ngRoute', 'agGrid', 'toast
 				})
 
 			/*
-			 * Manage users routes
+			 * Admin routes
 			 */
-			.when('/users',
+			.when('/admin/user',
 				{
-					templateUrl: 'templates/Users.html',
-					controller: 'UsersController'
+					templateUrl: 'templates/admin/User.html',
+					controller: 'UserController'
+				})
+			.when('/admin/department',
+				{
+					templateUrl: 'templates/admin/Department.html',
+					controller: 'DepartmentController'
+				})
+			.when('/admin/status',
+				{
+					templateUrl: 'templates/admin/Status.html',
+					controller: 'StatusController'
 				})
 			
 

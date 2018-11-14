@@ -21,6 +21,7 @@
 							$rootScope.user.name = response.data.user.name;
 							$rootScope.user.userName = response.data.user.userName;
 							$rootScope.user.groupIsIT = response.data.user.groupIsIT;
+							console.log($rootScope.user.groupIsIT);
 		        			toaster.pop({
 										type: 'success',
 						                title: 'Connexion autorisée',
