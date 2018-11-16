@@ -53,7 +53,17 @@ var devRequestApp = angular.module('devRequestApp', ['ngRoute', 'agGrid', 'toast
 			 */
 			.when('/admin/user',
 				{
-					templateUrl: 'templates/admin/User.html',
+					templateUrl: 'templates/admin/user/User.html',
+					controller: 'UserController'
+				})
+			.when('/admin/user/editUser',
+				{
+					templateUrl: 'templates/admin/user/EditUser.html',
+					controller: 'UserController'
+				})
+			.when('/admin/user/editUser/:idUser',
+				{
+					templateUrl: 'templates/admin/user/EditUser.html',
 					controller: 'UserController'
 				})
 			.when('/admin/department',

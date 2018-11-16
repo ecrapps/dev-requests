@@ -16,8 +16,7 @@ class UserController {
 							`userName`, 
 							`name`, 
 							`userGroup` 
-						FROM `users` 
-						ORDER BY `name` ASC";
+						FROM `users`";
 		$getUsersResult = $this->container->db->query($getUsers);
 
 		return $response->withStatus(200)
@@ -29,9 +28,12 @@ class UserController {
 		$datas = new stdClass();
 		$datas->params = json_decode(json_encode($getQueryParams), FALSE);
 
-		$getUser = "SELECT * 
-					   FROM `users` 
-					   WHERE `users` . `id` = :idUser";
+		$getUser = "SELECT `id`, 
+							`userName`, 
+							`name`, 
+							`userGroup` 
+						FROM `users`  
+   						WHERE `users` . `id` = :idUser";
 		$getUserResult = $this->container->db->query($getUser, $datas);
 
 		return $response->withStatus(200)
@@ -42,6 +44,7 @@ class UserController {
 		$getParsedBody = $request->getParsedBody();
 		$datas = new stdClass();
 		$datas->params = json_decode(json_encode($getParsedBody), FALSE);
+		$datas->params->passwd = hash('sha256', $datas->params->passwd);
 
 		$createUser = "INSERT INTO `users` (`name`, 
 											`userName`, 
@@ -63,9 +66,12 @@ class UserController {
 		$datas->params = json_decode(json_encode($getParsedBody), FALSE);
 
 		$updateUser = "UPDATE `users` SET `name` = :name, 
-										  `userName` = :userName, 
-										  `passwd` = :passwd, 
-										  `userGroup` = :userGroup 
+										  `userName` = :userName, ";
+		if (isset($datas->params->passwd)) {
+			$datas->params->passwd = hash('sha256', $datas->params->passwd);
+			$updateUser .= 				  "`passwd` = :passwd, ";
+		}
+		$updateUser .= 				  "`userGroup` = :userGroup 
 						WHERE `users`.`id` = :idUser";
 		$updateUserResult = $this->container->db->query($updateUser, $datas);
 

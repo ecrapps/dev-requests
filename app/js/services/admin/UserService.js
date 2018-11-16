@@ -58,9 +58,10 @@
 				idUser: user.id,
 				name: user.name,
 				userName: user.userName,
-				passwd: user.passwd,
 				userGroup: user.userGroup
 			}
+
+			if (user.passwd) data.passwd = user.passwd;
 
 			return $http({
 				method: "PUT",
