@@ -68,12 +68,32 @@ var devRequestApp = angular.module('devRequestApp', ['ngRoute', 'agGrid', 'toast
 				})
 			.when('/admin/department',
 				{
-					templateUrl: 'templates/admin/Department.html',
+					templateUrl: 'templates/admin/department/Department.html',
+					controller: 'DepartmentController'
+				})
+			.when('/admin/department/editDepartment',
+				{
+					templateUrl: 'templates/admin/department/EditDepartment.html',
+					controller: 'DepartmentController'
+				})
+			.when('/admin/department/editDepartment/:idDepartment',
+				{
+					templateUrl: 'templates/admin/department/EditDepartment.html',
 					controller: 'DepartmentController'
 				})
 			.when('/admin/status',
 				{
-					templateUrl: 'templates/admin/Status.html',
+					templateUrl: 'templates/admin/status/Status.html',
+					controller: 'StatusController'
+				})
+			.when('/admin/status/editStatus',
+				{
+					templateUrl: 'templates/admin/status/EditStatus.html',
+					controller: 'StatusController'
+				})
+			.when('/admin/status/editStatus/:idStatus',
+				{
+					templateUrl: 'templates/admin/status/EditStatus.html',
 					controller: 'StatusController'
 				})
 			

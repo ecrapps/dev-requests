@@ -12,7 +12,7 @@ class StatusController {
 	}
 	
 	public function getStatuses(Request $request, Response $response, $args){
-		$getStatuses = "SELECT * FROM `statuses` ORDER BY `id` ASC";
+		$getStatuses = "SELECT * FROM `statuses`";
 		$getStatusesResult = $this->container->db->query($getStatuses);
 
 		return $response->withStatus(200)
@@ -38,10 +38,8 @@ class StatusController {
 		$datas = new stdClass();
 		$datas->params = json_decode(json_encode($getParsedBody), FALSE);
 
-		$createStatus = "INSERT INTO `statuses` (`label`, 
-														  `costCenter`) 
-									VALUES (:label, 
-											:costCenter)";
+		$createStatus = "INSERT INTO `statuses` (`label`) 
+									VALUES (:label)";
 		$createStatusResult = $this->container->db->query($createStatus, $datas);
 		
 		return $response->withStatus(200)
@@ -53,8 +51,7 @@ class StatusController {
 		$datas = new stdClass();
 		$datas->params = json_decode(json_encode($getParsedBody), FALSE);
 
-		$updateStatus = "UPDATE `statuses` SET `label` = :label, 
-														`costCenter` = :costCenter 
+		$updateStatus = "UPDATE `statuses` SET `label` = :label 
 								WHERE `statuses`.`id` = :idStatus";
 		$updateStatusResult = $this->container->db->query($updateStatus, $datas);
 

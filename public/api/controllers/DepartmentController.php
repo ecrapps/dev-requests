@@ -12,7 +12,7 @@ class DepartmentController {
 	}
 	
 	public function getDepartments(Request $request, Response $response, $args){
-		$getDepartments = "SELECT * FROM `departments` ORDER BY `name` ASC";
+		$getDepartments = "SELECT * FROM `departments`";
 		$getDepartmentsResult = $this->container->db->query($getDepartments);
 
 		return $response->withStatus(200)
