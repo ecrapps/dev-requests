@@ -107,7 +107,7 @@ var devRequestApp = angular.module('devRequestApp', ['ngRoute', 'agGrid', 'toast
 
 
 devRequestApp.constant('URL_REQUEST_API', (function() {
-	var url = "http://localhost/dev-requests/public/index.php/dev-requests/";
+	var url = "http://localhost/dev-requests/public/index.php/dev-requests/";//"http://vz26824.iservices.db.de/dev-requests/public/index.php/dev-requests/";
 
 	return {
 		URL_API: url
