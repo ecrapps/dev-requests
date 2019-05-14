@@ -3,6 +3,7 @@ node_modules/
 public/settings/
 public/tmp/
 public/uploads/
+settings-prod/
 vendor/
 *.lock
 *.doc
