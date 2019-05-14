@@ -103,13 +103,3 @@ var devRequestApp = angular.module('devRequestApp', ['ngRoute', 'agGrid', 'toast
 			 */
 			.otherwise({redirectTo: '/login'});
 });
-
-
-
-devRequestApp.constant('URL_REQUEST_API', (function() {
-	var url = "http://ecr.li.kernix.net/public/index.php/dev-requests/";//"http://localhost/dev-requests/public/index.php/dev-requests/";
-
-	return {
-		URL_API: url
-	}
-})());

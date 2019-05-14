@@ -14,7 +14,7 @@
 	$app->add(function ($req, $res, $next) {
 	    $response = $next($req, $res);
 	    return $response
-	            ->withHeader('Access-Control-Allow-Origin', 'http://devreq.ecr.li.kernix.net')
+	            ->withHeader('Access-Control-Allow-Origin', ACCESS_CONTROL_ALLOW_ORIGIN)
 	            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
 	            ->withHeader('Content-Type', 'application/json')
 	            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
