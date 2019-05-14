@@ -1,0 +1,39 @@
+<div class="container">
+    <h1>{{ title }}</h1>
+    <form name="userForm">
+        <p class="section-title">Informations concernant l'utilisateur</p>
+        <div class="form-group row">
+            <label for="userName" class="col-sm-3 col-form-label">Username <span class="required-field">*</span></label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" ng-model="user.userName" id="userName" maxlength="20" required />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="name" class="col-sm-3 col-form-label">Nom complet <span class="required-field">*</span></label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" ng-model="user.name" id="name" required />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="userGroup" class="col-sm-3 col-form-label">Groupe ("IT" ou "users" par défaut) <span class="required-field">*</span></label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" ng-model="user.userGroup" id="userGroup" required />
+            </div>
+        </div>
+
+        <br /><br />
+        <p ng-if="user.id">Ne remplissez ces cases que si vous souhaitez modifier le mot de passe. Sinon, laissez-les vide.</p>
+        <div class="form-group row">
+            <label for="passwd" class="col-sm-3 col-form-label">Mot de passe <span class="required-field" ng-if="!user.id">*</span></label>
+            <div class="col-sm-3">
+                <input type="password" class="form-control" ng-model="user.passwd" id="passwd" ng-required="!user.id" />
+            </div>
+        </div>
+
+        <br /><br />
+
+        <p><span class="required-field">*</span> Champs obligatoire</p>
+		<button type="submit" ng-disabled="userForm.$invalid" ng-click="editUser(user)" class="btn btn-primary">Enregistrer</button>
+        <button type="button" ng-click="cancelEdit()" class="btn btn-default">Annuler</button>
+    </form>
+    </div>

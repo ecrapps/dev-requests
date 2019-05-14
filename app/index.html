@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="devRequestApp">
+<head>
+	<meta charset="utf-8" />
+	<title>Demandes de développement</title>
+	<link rel="icon" type="image/png" href="assets/img/favicon_db.png" />
+	<link rel="stylesheet" type="text/css" href="css/bootstrap4.min.css">
+	<link rel="stylesheet" type="text/css" href="css/simplex.bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/toaster.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/datatables.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/app.css" />
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+</head>
+<body ng-cloak ng-controller="MainController">
+	<!-- Fixed navbar -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" ng-if="loggedIn">
+		<div class="container">
+			<a class="navbar-brand" href="#{{basePath}}/"><img src="assets/img/DB_eM_rgb_40px.png" /><span class="ml-2">DevReq</span></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarColor03">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item dropdown ml-3">
+						<a class="nav-link dropdown-toggle dropdown-style" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Demandes de développement
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a href="#{{basePath}}/editRequest" class="dropdown-item">Nouvelle demande</a>
+							<a href="#{{basePath}}/getRequests" class="dropdown-item">Voir toutes les demandes</a>
+						</div>
+					</li>
+
+					<li class="nav-item dropdown ml-2 dropdown-style" ng-if="user.groupIsIT">
+						<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Administration
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="#/admin/department">Départements</a>
+							<a class="dropdown-item" href="#/admin/status">Statuts</a>
+							<a class="dropdown-item" href="#/admin/user">Utilisateurs</a>
+						</div>
+					</li>
+				</ul>
+				<ul class="navbar-nav">
+					<li class="nav-item dropdown dropdown-style">
+						<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							{{ user.name }}
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="#/logout">Se déconnecter</a>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Toaster container -->
+	<toaster-container></toaster-container>
+
+	<!-- Begin page content -->
+	<div class="container">
+		<ng-view></ng-view>
+	</div>
+
+	<!-- Sticky footer -->
+	<footer class="footer">
+		<div class="container">
+			<p class="text-muted">Copyright 2018 DeutscheBahn - Eurocargorail</p>
+		</div>
+	</footer>
+
+<script type="text/javascript" src="lib/jquery.min.js"></script>
+<script type="text/javascript" src="lib/underscore-1.4.4.min.js"></script>
+<script type="text/javascript" src="lib/bootstrap4.min.js"></script>
+<script type="text/javascript" src="lib/angular/angular.js"></script>
+<script type="text/javascript" src="lib/angular/angular-route.min.js"></script>
+<script type="text/javascript" src="lib/angular/angular-file-upload.min.js"></script>
+<script type="text/javascript" src="lib/ag-grid.min.js"></script>
+<script type="text/javascript" src="lib/FileSaver.min.js"></script>
+<script type="text/javascript" src="lib/ng-file-upload.min.js"></script>
+<script type="text/javascript" src="https://code.angularjs.org/1.4.0/angular-animate.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/1.1.0/toaster.min.js"></script>
+<script type="text/javascript" src="lib/datatables.min.js"></script>
+
+<script type="text/javascript" src="js/app.js"></script>
+
+<script type="text/javascript" src="js/controllers/MainController.js"></script>
+<script type="text/javascript" src="js/controllers/EditRequestController.js"></script>
+<script type="text/javascript" src="js/controllers/RequestsController.js"></script>
+<script type="text/javascript" src="js/controllers/LoginController.js"></script>
+<script type="text/javascript" src="js/controllers/LogoutController.js"></script>
+<script type="text/javascript" src="js/controllers/admin/user/UserController.js"></script>
+<script type="text/javascript" src="js/controllers/admin/department/DepartmentController.js"></script>
+<script type="text/javascript" src="js/controllers/admin/status/StatusController.js"></script>
+
+<script type="text/javascript" src="js/services/RequestService.js"></script>
+<script type="text/javascript" src="js/services/MainService.js"></script>
+<script type="text/javascript" src="js/services/LoginService.js"></script>
+<script type="text/javascript" src="js/services/admin/user/UserService.js"></script>
+<script type="text/javascript" src="js/services/admin/department/DepartmentService.js"></script>
+<script type="text/javascript" src="js/services/admin/status/StatusService.js"></script>
+
+<script type="text/javascript" src="js/directives/autoFocus.js"></script>
+<script type="text/javascript" src="js/directives/capitalize.js"></script>
+<script type="text/javascript" src="js/filters.js"></script>
+
+</body>
+</html>

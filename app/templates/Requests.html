@@ -1,0 +1,342 @@
+<h1 class="page-header">Demandes de développement</h1>
+
+<div style="padding-top: 26px; box-sizing: border-box; height: 700px">
+    <div id="myGrid" ag-grid="gridOptions" class="ag-theme-balham" style="height: 100%;"></div>
+</div>
+
+<div>
+	<button type="button" class="btn btn-outline-info" ng-click="exportDataAsCsv()">Exporter les données</button>
+</div>
+
+<!-- Modal -->
+<script>
+	$('#requestDetailsModal').on('show.bs.modal', function(e) {
+	  var request = JSON.parse(e.relatedTarget.dataset.request);
+
+	  // Header de la modal
+	  $('#requestDetailsModalLabel').html(request.projectName);
+
+	  // Informations Générales
+	  $('#id').html(request.id);
+	  var array = request.dateCreated.substr(0, 10).split("-").map(function(value, index) {return [value];});
+	  $('#dateCreated').html(array[2] + "/" + array[1] + "/" + array[0]);
+	  $('#status').html(request.status.label);
+	  var array = request.dateNewStatus.substr(0, 10).split("-").map(function(value, index) {return [value];});
+	  $('#dateNewStatus').html(array[2] + "/" + array[1] + "/" + array[0]);
+	  $('#applicant').html(request.applicant.name);
+	  $('#department').html(request.department.name);
+
+	  // Projet
+	  $('#currentSituationDescr').html(request.currentSituationDescr);
+	  $('#currentIssueDescr').html(request.currentIssueDescr);
+	  $('#proposedSolutionDescr').html(request.proposedSolutionDescr);
+	  $('#addedFile').html(request.addedFile);
+
+	  // Gains attendus
+	  $('#benInvY1').html(request.benInvY1);
+	  $('#benInvY2').html(request.benInvY2);
+	  $('#benInvY3').html(request.benInvY3);
+	  $('#benInvY4').html(request.benInvY4);
+	  $('#benInvTotal').html(request.benInvY1 + request.benInvY2 + request.benInvY3 + request.benInvY4);
+	  $('#benCostY1').html(request.benCostY1);
+	  $('#benCostY2').html(request.benCostY2);
+	  $('#benCostY3').html(request.benCostY3);
+	  $('#benCostY4').html(request.benCostY4);
+	  $('#benCostTotal').html(request.benCostY1 + request.benCostY2 + request.benCostY3 + request.benCostY4);
+	  $('#benBenefY1').html(request.benBenefY1);
+	  $('#benBenefY2').html(request.benBenefY2);
+	  $('#benBenefY3').html(request.benBenefY3);
+	  $('#benBenefY4').html(request.benBenefY4);
+	  $('#benBenefTotal').html(request.benBenefY1 + request.benBenefY2 + request.benBenefY3 + request.benBenefY4);
+	  $('#benTotalY1').html(request.benBenefY1 - (request.benInvY1 + request.benCostY1));
+	  $('#benTotalY2').html(request.benBenefY2 - (request.benInvY2 + request.benCostY2));
+	  $('#benTotalY3').html(request.benBenefY3 - (request.benInvY3 + request.benCostY3));
+	  $('#benTotalY4').html(request.benBenefY4 - (request.benInvY4 + request.benCostY4));
+	  $('#benTotal').html((request.benBenefY1 + request.benBenefY2 + request.benBenefY3 + request.benBenefY4) - 
+								((request.benInvY1 + request.benInvY2 + request.benInvY3 + request.benInvY4) + 
+								(request.benCostY1 + request.benCostY2 + request.benCostY3 + request.benCostY4)));
+
+	  // Budget
+	  $('#budgetEstimated').html(request.budgetEstimated);
+	  $('#budgetAvailable').html(request.budgetAvailable);
+
+	  // Gestion du projet
+	  $('#projectManager').html(request.projectManager);
+	  $('#projectManagerBusiness').html(request.projectManagerBusiness);
+	  $('#projectManagerIT').html(request.projectManagerIT);
+
+	  // Calendrier du projet
+	  $('#projSched1Business').html(request.projSched1Business);
+	  var array = request.projSched1ExpDate.substr(0, 10).split("-").map(function(value, index) {return [value];});
+	  $('#projSched1ExpDate').html(array[2] + "/" + array[1] + "/" + array[0]);
+	  $('#projSched1IT').html(request.projSched1IT);
+	  $('#projSched1External').html(request.projSched1External);
+	  $('#projSched1Assets').html(request.projSched1Assets);
+	  $('#projSched2Business').html(request.projSched2Business);
+	  var array = request.projSched2ExpDate.substr(0, 10).split("-").map(function(value, index) {return [value];});
+	  $('#projSched2ExpDate').html(array[2] + "/" + array[1] + "/" + array[0]);
+	  $('#projSched2IT').html(request.projSched2IT);
+	  $('#projSched2External').html(request.projSched2External);
+	  $('#projSched2Assets').html(request.projSched2Assets);
+	  $('#projSched3Business').html(request.projSched3Business);
+	  var array = request.projSched3ExpDate.substr(0, 10).split("-").map(function(value, index) {return [value];});
+	  $('#projSched3ExpDate').html(array[2] + "/" + array[1] + "/" + array[0]);
+	  $('#projSched3IT').html(request.projSched3IT);
+	  $('#projSched3External').html(request.projSched3External);
+	  $('#projSched3Assets').html(request.projSched3Assets);
+	  $('#projSched4Business').html(request.projSched4Business);
+	  var array = request.projSched4ExpDate.substr(0, 10).split("-").map(function(value, index) {return [value];});
+	  $('#projSched4ExpDate').html(array[2] + "/" + array[1] + "/" + array[0]);
+	  $('#projSched4IT').html(request.projSched4IT);
+	  $('#projSched4External').html(request.projSched4External);
+	  $('#projSched4Assets').html(request.projSched4Assets);
+	  $('#projSched5Business').html(request.projSched5Business);
+	  var array = request.projSched5ExpDate.substr(0, 10).split("-").map(function(value, index) {return [value];});
+	  $('#projSched5ExpDate').html(array[2] + "/" + array[1] + "/" + array[0]);
+	  $('#projSched5IT').html(request.projSched5IT);
+	  $('#projSched5External').html(request.projSched5External);
+	  $('#projSched5Assets').html(request.projSched5Assets);
+	  $('#projSched6Business').html(request.projSched6Business);
+	  var array = request.projSched6ExpDate.substr(0, 10).split("-").map(function(value, index) {return [value];});
+	  $('#projSched6ExpDate').html(array[2] + "/" + array[1] + "/" + array[0]);
+	  $('#projSched6IT').html(request.projSched6IT);
+	  $('#projSched6External').html(request.projSched6External);
+	  $('#projSched6Assets').html(request.projSched6Assets);
+	  $('#projSchedTotalBusiness').html(request.projSched1Business + request.projSched2Business + 
+	  									request.projSched3Business + request.projSched4Business + 
+	  									request.projSched5Business + request.projSched6Business);
+	  $('#projSchedTotalExpDate').html("");
+	  $('#projSchedTotalIT').html(request.projSched1IT + request.projSched2IT + 
+	  							  request.projSched3IT + request.projSched4IT + 
+	  							  request.projSched5IT + request.projSched6IT);
+	  $('#projSchedTotalExternal').html(request.projSched1External + request.projSched2External + 
+	  									request.projSched3External + request.projSched4External + 
+	  									request.projSched5External + request.projSched6External);
+	  $('#projSchedTotalAssets').html(request.projSched1Assets + request.projSched2Assets + 
+  									  request.projSched3Assets + request.projSched4Assets + 
+  									  request.projSched5Assets + request.projSched6Assets);
+
+	  // Contraintes
+	  $('#constraints').html(request.constraints);
+
+	  // Status précédents
+	  var html = "";
+	  if (request.prevStatuses != "") {
+	  	  var array = request.prevStatuses.split(" ### ")
+		  								  .map(function(value, index) {
+			  return [value];
+		  });
+		  html = "<ul>";
+
+		  for (i = 0, len = array.length, text = ""; i < len; i++) { 
+			  text = array[i][0];
+			  array[i] = text.split(" --> ");
+		  	  var tmp = array[i][1].substr(0, 10).split("-").map(function(value, index) {return [value];});
+			  html = html.concat("<li>" + array[i][0] + " (" + tmp[2] + "/" + tmp[1] + "/" + tmp[0] + ")</li>");
+		  }
+		  html.concat("</ul>");
+	  }
+
+	  $('#prevStatuses').html(html);
+
+	});
+</script>
+
+<div class="modal" id="requestDetailsModal" tabindex="-1" role="dialog" aria-labelledby="requestDetailsModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="requestDetailsModalLabel" style="color: #dc3545;"></h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="container-fluid">
+					<p class="section-title">Informations générales</p>
+					<div class="row mt-3">
+						<div class="col-md-3 label-request-details">ID</div>
+						<div class="col-md-3" id="id"></div>
+						<div class="col-md-3 label-request-details">Date de saisie</div>
+						<div class="col-md-3" id="dateCreated"></div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-3 label-request-details">Statut</div>
+						<div class="col-md-3" id="status"></div>
+						<div class="col-md-3 label-request-details">Modifié le</div>
+						<div class="col-md-3" id="dateNewStatus"></div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-3 label-request-details">Demandeur</div>
+						<div class="col-md-3" id="applicant"></div>
+						<div class="col-md-3 label-request-details">Département</div>
+						<div class="col-md-3" id="department"></div>
+					</div>
+
+					<p class="section-title">Projet</p>
+					<div class="row mt-3">
+						<div class="col-md-3 label-request-details">Situation actuelle</div>
+						<div class="col" id="currentSituationDescr"></div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-3 label-request-details">Problème</div>
+						<div class="col" id="currentIssueDescr"></div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-3 label-request-details">Solution proposée</div>
+						<div class="col" id="proposedSolutionDescr"></div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-3 label-request-details">Fichier joint</div>
+						<div class="col" id="addedFile"></div>
+					</div>
+
+					<p class="section-title">Gains attendus (en €)</p>
+					<div class="row justify-content-center">
+						<div class="text-left col-sm-4 tableCell tableHeader">Analyse du projet</div>
+						<div class="text-center col-sm-1 tableCell tableHeader">Y1</div>
+						<div class="text-center col-sm-1 tableCell tableHeader">Y2</div>
+						<div class="text-center col-sm-1 tableCell tableHeader">Y3</div>
+						<div class="text-center col-sm-1 tableCell tableHeader">Y4</div>
+						<div class="text-center col-sm-2 tableCell tableHeader">Total</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="text-left col-sm-4 tableCell">Investissements</div>
+						<div class="text-center col-sm-1 tableCell" id="benInvY1"></div>
+						<div class="text-center col-sm-1 tableCell" id="benInvY2"></div>
+						<div class="text-center col-sm-1 tableCell" id="benInvY3"></div>
+						<div class="text-center col-sm-1 tableCell" id="benInvY4"></div>
+						<div class="text-center col-sm-2 tableCell" id="benInvTotal"></div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="text-left col-sm-4 tableCell">Coûts d'exploitation</div>
+						<div class="text-center col-sm-1 tableCell" id="benCostY1"></div>
+						<div class="text-center col-sm-1 tableCell" id="benCostY2"></div>
+						<div class="text-center col-sm-1 tableCell" id="benCostY3"></div>
+						<div class="text-center col-sm-1 tableCell" id="benCostY4"></div>
+						<div class="text-center col-sm-2 tableCell" id="benCostTotal"></div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="text-left col-sm-4 tableCell">Bénéfices</div>
+						<div class="text-center col-sm-1 tableCell" id="benBenefY1"></div>
+						<div class="text-center col-sm-1 tableCell" id="benBenefY2"></div>
+						<div class="text-center col-sm-1 tableCell" id="benBenefY3"></div>
+						<div class="text-center col-sm-1 tableCell" id="benBenefY4"></div>
+						<div class="text-center col-sm-2 tableCell" id="benBenefTotal"></div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="text-left col-sm-4 tableCell">Total</div>
+						<div class="text-center col-sm-1 tableCell" id="benTotalY1"></div>
+						<div class="text-center col-sm-1 tableCell" id="benTotalY2"></div>
+						<div class="text-center col-sm-1 tableCell" id="benTotalY3"></div>
+						<div class="text-center col-sm-1 tableCell" id="benTotalY4"></div>
+						<div class="text-center col-sm-2 tableCell" id="benTotal"></div>
+					</div>
+
+					<p class="section-title">Budget (en €)</p>
+					<div class="row mt-3">
+						<div class="col-md-3 label-request-details">Budget estimé</div>
+						<div class="col-md-3" id="budgetEstimated"></div>
+						<div class="col-md-3 label-request-details">Budget disponible</div>
+						<div class="col-md-3" id="budgetAvailable"></div>
+					</div>
+
+					<p class="section-title">Gestion du projet</p>
+					<div class="row mt-3">
+						<div class="col-md-3 label-request-details">Sponsor du projet</div>
+						<div class="col" id="projectManager"></div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-3 label-request-details">Chef de projet Business</div>
+						<div class="col" id="projectManagerBusiness"></div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-3 label-request-details">Chef de projet IT</div>
+						<div class="col" id="projectManagerIT"></div>
+					</div>
+
+					<p class="section-title">Calendrier du projet</p>
+					<div class="row justify-content-center">
+						<div class="text-left col-sm-3 tableCell tableHeader">Etape / Besoin en ressources</div>
+						<div class="text-center col-sm-2 tableCell tableHeader">Charge business (en h)</div>
+						<div class="text-center col-sm-2 tableCell tableHeader">Expected delivery date</div>
+						<div class="text-center col-sm-1 tableCell tableHeader">IT</div>
+						<div class="text-center col-sm-1 tableCell tableHeader">External</div>
+						<div class="text-center col-sm-1 tableCell tableHeader">Assets</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="text-left col-sm-3 tableCell">1 - Concept &amp; Business case</div>
+						<div class="text-center col-sm-2 tableCell" id="projSched1Business"></div>
+						<div class="text-center col-sm-2 tableCell" id="projSched1ExpDate"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSched1IT"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSched1External"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSched1Assets"></div>
+					</div>
+					<!-- <div class="row justify-content-center">
+						<div class="text-left col-sm-3 tableCell">2 - Pipeline</div>
+						<div class="text-center col-sm-2 tableCell" id="projSched2Business"></div>
+						<div class="text-center col-sm-2 tableCell" id="projSched2ExpDate"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSched2IT"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSched2External"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSched2Assets"></div>
+					</div> -->
+					<div class="row justify-content-center">
+						<div class="text-left col-sm-3 tableCell">2 - Analysis &amp; spec</div>
+						<div class="text-center col-sm-2 tableCell" id="projSched3Business"></div>
+						<div class="text-center col-sm-2 tableCell" id="projSched3ExpDate"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSched3IT"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSched3External"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSched3Assets"></div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="text-left col-sm-3 tableCell">3 - Development &amp; test</div>
+						<div class="text-center col-sm-2 tableCell" id="projSched4Business"></div>
+						<div class="text-center col-sm-2 tableCell" id="projSched4ExpDate"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSched4IT"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSched4External"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSched4Assets"></div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="text-left col-sm-3 tableCell">4 - Deployment</div>
+						<div class="text-center col-sm-2 tableCell" id="projSched5Business"></div>
+						<div class="text-center col-sm-2 tableCell" id="projSched5ExpDate"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSched5IT"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSched5External"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSched5Assets"></div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="text-left col-sm-3 tableCell">5 - REX</div>
+						<div class="text-center col-sm-2 tableCell" id="projSched6Business"></div>
+						<div class="text-center col-sm-2 tableCell" id="projSched6ExpDate"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSched6IT"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSched6External"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSched6Assets"></div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="text-left col-sm-3 tableCell">Total</div>
+						<div class="text-center col-sm-2 tableCell" id="projSchedTotalBusiness"></div>
+						<div class="text-center col-sm-2 tableCell" id="projSchedTotalExpDate"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSchedTotalIT"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSchedTotalExternal"></div>
+						<div class="text-center col-sm-1 tableCell" id="projSchedTotalAssets"></div>
+					</div>
+
+					<p class="section-title">Contraintes</p>
+					<div class="row mt-3">
+						<div class="col-md-3 label-request-details">Contraintes</div>
+						<div class="col-md-6" id="constraints"></div>
+					</div>
+
+					<p class="section-title">Statuts précédents</p>
+					<div class="row mt-3">
+						<div class="col-md-3 label-request-details">Statuts précédents</div>
+						<div class="col-md-9" id="prevStatuses"></div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fermer</button>
+			</div>
+		</div>
+	</div>
+</div>
