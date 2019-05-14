@@ -1,0 +1,9 @@
+bdd/
+node_modules/
+public/settings/
+public/tmp/
+public/uploads/
+vendor/
+*.lock
+*.doc
+*.txt

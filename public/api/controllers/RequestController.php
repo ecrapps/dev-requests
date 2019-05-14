@@ -404,8 +404,13 @@ class RequestController {
 	}
 
 	public function generatePDF(Request $request, Response $response, $args){
+<<<<<<< HEAD
 		require_once("/var/web/dev-requests/public/dependencies/fpdf/fpdf.php");
 		require_once("/var/web/dev-requests/public/dependencies/fpdf/fpdi.php");
+=======
+		require_once("./dependencies/fpdf/fpdf.php");//require_once("/var/www/html/dev-requests/public/dependencies/fpdf/fpdf.php");
+		require_once("./dependencies/fpdf/fpdi.php");//require_once("/var/www/html/dev-requests/public/dependencies/fpdf/fpdi.php");
+>>>>>>> 741e8eb05727c8efe522a185ebc64a69080369a3
 
 		$getQueryParams = $request->getQueryParams();
 		$datas = new stdClass();
@@ -442,10 +447,17 @@ class RequestController {
 
 		$request['applicant'] = $getApplicantResult[0]['name'];
 
+<<<<<<< HEAD
 		$chemin_complet = "/var/web/dev-requests/public/tmp/tmp.pdf";
 
 		$PDF = new FPDI(); // Création de l'instance PDF
 		$pageCount = $PDF->setSourceFile("/var/web/dev-requests/public/dependencies/includes/Fiche info projet.pdf"); // On définit notre pdf source
+=======
+		$chemin_complet = "./tmp/tmp.pdf";//$chemin_complet = "/var/www/html/dev-requests/public/tmp/tmp.pdf";
+
+		$PDF = new FPDI(); // Création de l'instance PDF
+		$pageCount = $PDF->setSourceFile("./dependencies/includes/Fiche info projet.pdf"); // On définit notre pdf source //$pageCount = $PDF->setSourceFile("/var/www/html/dev-requests/public/dependencies/includes/Fiche info projet.pdf"); // On définit notre pdf source
+>>>>>>> 741e8eb05727c8efe522a185ebc64a69080369a3
 		$tplIdx = $PDF->importPage(1); // On récupère la page 1 de la source
 		$PDF->addPage(); // On crée une page à notre pdf toujours vierge
 		$PDF->useTemplate($tplIdx); // Sur cette page on dessine notre pdf source
