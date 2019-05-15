@@ -191,6 +191,10 @@ class RequestController {
 												   `projSched6External`,
 												   `projSched6Assets`,
 												   `constraints`,
+												   `rgpdTypeData`,
+												   `rgpdFinalite`,
+												   `rgpdProcessus`,
+												   `rgpdImpact`,
 												   `idStatus`,
 												   `dateNewStatus`) 
 						   VALUES (:idApplicant,
@@ -244,6 +248,10 @@ class RequestController {
 								   :projSched6External,
 								   :projSched6Assets,
 								   :constraints,
+								   :rgpdTypeData,
+								   :rgpdFinalite,
+								   :rgpdProcessus,
+								   :rgpdImpact,
 								   :idStatus,
 								   NOW())";
 		$createRequestResult = $this->container->db->query($createRequest, $datas);
@@ -340,7 +348,11 @@ class RequestController {
 												   `projSched6IT` = :projSched6IT,
 												   `projSched6External` = :projSched6External,
 												   `projSched6Assets` = :projSched6Assets,
-												   `constraints` = :constraints 
+												   `constraints` = :constraints,
+												   `rgpdTypeData` = :rgpdTypeData,
+												   `rgpdFinalite` = :rgpdFinalite,
+												   `rgpdProcessus` = :rgpdProcessus,
+												   `rgpdImpact` = :rgpdImpact 
 							WHERE `requests`.`id` = :idRequest";
 		$updateRequestResult = $this->container->db->query($updateRequest, $datas);
 

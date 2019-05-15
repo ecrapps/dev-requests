@@ -119,7 +119,13 @@
 	  // Contraintes
 	  $('#constraints').html(request.constraints);
 
-	  // Status précédents
+		// Infos RGPD
+		$('#rgpdTypeData').html(request.rgpdTypeData);
+		$('#rgpdFinalite').html(request.rgpdFinalite);
+		$('#rgpdProcessus').html(request.rgpdProcessus);
+		$('#rgpdImpact').html(request.rgpdImpact);
+
+	  // Statuts précédents
 	  var html = "";
 	  if (request.prevStatuses != "") {
 	  	  var array = request.prevStatuses.split(" ### ")
@@ -325,6 +331,24 @@
 					<div class="row mt-3">
 						<div class="col-md-3 label-request-details">Contraintes</div>
 						<div class="col-md-6" id="constraints"></div>
+					</div>
+
+					<p class="section-title">Informations RGPD</p>
+					<div class="row mt-3">
+						<div class="col-md-3 label-request-details">Type de données collectées et/ou utilisées</div>
+						<div class="col-md-6" id="rgpdTypeData"></div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-3 label-request-details">Finalité de la collecte et/ou de l'utilisation de ces données</div>
+						<div class="col-md-6" id="rgpdFinalite"></div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-3 label-request-details">Processus lié</div>
+						<div class="col-md-6" id="rgpdProcessus"></div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-3 label-request-details">Impact</div>
+						<div class="col-md-6" id="rgpdImpact"></div>
 					</div>
 
 					<p class="section-title">Statuts précédents</p>

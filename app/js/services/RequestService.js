@@ -36,6 +36,10 @@
 			if (typeof(request.projSched5Assets) === 'undefined') { request.projSched5Assets = 0; };
 			if (typeof(request.projSched6Assets) === 'undefined') { request.projSched6Assets = 0; };
 			if (typeof(request.constraints) === 'undefined') { request.constraints = ""; };
+			if (typeof(request.rgpdTypeData) === 'undefined') { request.rgpdTypeData = ""; };
+			if (typeof(request.rgpdFinalite) === 'undefined') { request.rgpdFinalite = ""; };
+			if (typeof(request.rgpdProcessus) === 'undefined') { request.rgpdProcessus = ""; };
+			if (typeof(request.rgpdImpact) === 'undefined') { request.rgpdImpact = ""; };
 			var d1 = new Date(request.projSched1ExpDate) ;
 			d1.setTime( d1.getTime() - d1.getTimezoneOffset()*60*1000 );
 			var d3 = new Date(request.projSched3ExpDate) ;
@@ -97,6 +101,10 @@
 							projSched6External: request.projSched6External,
 							projSched6Assets: request.projSched6Assets,
 							constraints: request.constraints,
+							rgpdTypeData: request.rgpdTypeData,
+							rgpdFinalite: request.rgpdFinalite,
+							rgpdProcessus: request.rgpdProcessus,
+							rgpdImpact: request.rgpdImpact,
 							idStatus: 1
 						}
 
@@ -170,7 +178,11 @@
 							projSched6IT: request.projSched6IT,
 							projSched6External: request.projSched6External,
 							projSched6Assets: request.projSched6Assets,
-							constraints: request.constraints
+							constraints: request.constraints,
+							rgpdTypeData: request.rgpdTypeData,
+							rgpdFinalite: request.rgpdFinalite,
+							rgpdProcessus: request.rgpdProcessus,
+							rgpdImpact: request.rgpdImpact,
 						}
 			
 			return Upload.upload({
