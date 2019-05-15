@@ -15,7 +15,8 @@ class UserController {
 		$getUsers = "SELECT `id`, 
 							`userName`, 
 							`name`, 
-							`userGroup` 
+							`userGroup`, 
+							`dpo` 
 						FROM `users`";
 		$getUsersResult = $this->container->db->query($getUsers);
 
@@ -31,7 +32,8 @@ class UserController {
 		$getUser = "SELECT `id`, 
 							`userName`, 
 							`name`, 
-							`userGroup` 
+							`userGroup`, 
+							`dpo` 
 						FROM `users`  
    						WHERE `users` . `id` = :idUser";
 		$getUserResult = $this->container->db->query($getUser, $datas);
@@ -49,11 +51,13 @@ class UserController {
 		$createUser = "INSERT INTO `users` (`name`, 
 											`userName`, 
 											`passwd`, 
-											`userGroup`) 
+											`userGroup`, 
+											`dpo`) 
 								VALUES (:name, 
 										:userName, 
 										:passwd, 
-										:userGroup)";
+										:userGroup, 
+										:dpo)";
 		$createUserResult = $this->container->db->query($createUser, $datas);
 		
 		return $response->withStatus(200)
@@ -71,7 +75,8 @@ class UserController {
 			$datas->params->passwd = hash('sha256', $datas->params->passwd);
 			$updateUser .= 				  "`passwd` = :passwd, ";
 		}
-		$updateUser .= 				  "`userGroup` = :userGroup 
+		$updateUser .= 				  "`userGroup` = :userGroup, 
+									   `dpo` = :dpo 
 						WHERE `users`.`id` = :idUser";
 		$updateUserResult = $this->container->db->query($updateUser, $datas);
 

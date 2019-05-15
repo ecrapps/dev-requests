@@ -43,7 +43,8 @@
 				name: user.name,
 				userName: user.userName,
 				passwd: user.passwd,
-				userGroup: user.userGroup
+				userGroup: user.userGroup,
+				dpo: user.dpo
 			}
 
 			return $http({
@@ -58,7 +59,8 @@
 				idUser: user.id,
 				name: user.name,
 				userName: user.userName,
-				userGroup: user.userGroup
+				userGroup: user.userGroup,
+				dpo: user.dpo
 			}
 
 			if (user.passwd) data.passwd = user.passwd;

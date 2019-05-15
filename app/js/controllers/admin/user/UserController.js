@@ -22,6 +22,8 @@
 						.then(function mySuccess(response) {
 								$scope.user = response.data[0];
 								$scope.title = "Editer " + $scope.user.name;
+								if ($scope.user.dpo === 1)
+									$scope.user.dpo = true;
 								console.log("getUser succeeded");
 							}, function myError(reason) {
 								console.log("getUser failed");
