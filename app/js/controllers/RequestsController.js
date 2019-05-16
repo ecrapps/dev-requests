@@ -595,7 +595,7 @@
 
 			// ag-grid methods
 			function statusCellRendererFunc() {
-				return "<span ng-if=\"user.groupIsIT\"><select ng-init=\"newStatus.id=data.status.id\" ng-change=\"newStatus.id!=data.status.id ? toggleStatusChanged(data.id, true) : toggleStatusChanged(data.id, false)\" style=\"width:100px\" ng-model=\"newStatus\" ng-options=\"status as status.label for status in statuses track by status.id\"><option value=\"\" disabled>Choisissez un statut</option></select><span ng-if='statusChanged[data.id]'>&nbsp;&nbsp;<a href=\"#/getRequests/\" ng-click=\"saveStatus(data.id, newStatus.id)\"><i class=\"far fa-save\"></i></a></span></span><span ng-show=\"!user.groupIsIT\">{{data.status.label}}</span>";
+				return "<span ng-if=\"user.groupIsIT\"><select ng-init=\"newStatus.id=data.status.id\" ng-change=\"newStatus.id!=data.status.id ? toggleStatusChanged(data.id, true) : toggleStatusChanged(data.id, false)\" style=\"width:100px\" ng-model=\"newStatus\" ng-options=\"status as status.label disable when (data.status.id === 1 && status.id > 2) for status in statuses track by status.id\"><option value=\"\" disabled>Choisissez un statut</option></select><span ng-if='statusChanged[data.id]'>&nbsp;&nbsp;<a href=\"#/getRequests/\" ng-click=\"saveStatus(data.id, newStatus.id)\"><i class=\"far fa-save\"></i></a></span></span><span ng-show=\"!user.groupIsIT\">{{data.status.label}}</span>";
 			}
 			// end ag-grid methods
 		}
