@@ -33,7 +33,8 @@
 						class="badge badge-primary"
 						href="#/admin/user"
 						ng-click="deleteUser(u.id)"
-						id="deleteUser">
+						id="deleteUser" 
+						onclick="return confirm('Supprimer cet utilisateur ?');">
 						Supprimer
 					</a>
 				</td>
