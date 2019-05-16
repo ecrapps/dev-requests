@@ -36,12 +36,21 @@
         </div>
 
         <br /><br />
-        <p ng-if="user.id">Ne remplissez ces cases que si vous souhaitez modifier le mot de passe. Sinon, laissez-les vide.</p>
+        <p ng-if="user.id">Ne remplissez ces cases que si vous souhaitez modifier le mot de passe. Sinon, laissez-les vides.</p>
         <div class="form-group row">
             <label for="passwd" class="col-sm-3 col-form-label">Mot de passe <span class="required-field" ng-if="!user.id">*</span></label>
             <div class="col-sm-3">
-                <input type="password" class="form-control" ng-model="user.passwd" id="passwd" ng-required="!user.id" />
+                <input type="password" class="form-control" ng-model="user.passwd" id="passwd" name="passwd" ng-required="!user.id" />
             </div>
+        </div>
+        <div class="form-group row">
+            <label for="passwdConf" class="col-sm-3 col-form-label">Confirmer mot de passe <span class="required-field" ng-if="!user.id">*</span></label>
+            <div class="col-sm-3">
+                <input type="password" class="form-control" ng-model="passwdConf" id="passwdConf" name="passwdConf" ng-required="!user.id" equals-to="userForm.passwd" />
+            </div>
+            <span class="text-danger col-sm-offset-3" ng-show="userForm.passwdConf.$error.equalsTo">
+                Passwords are differents
+            </span>
         </div>
 
         <br /><br />

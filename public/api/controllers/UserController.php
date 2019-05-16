@@ -50,6 +50,9 @@ class UserController {
 		$datas->params = json_decode(json_encode($getParsedBody), FALSE);
 		$datas->params->passwd = hash('sha256', $datas->params->passwd);
 
+		if (!isset($datas->params->dpo))
+			$datas->params->dpo = false;
+
 		$createUser = "INSERT INTO `users` (`name`, 
 											`userName`, 
 											`passwd`, 
@@ -72,6 +75,9 @@ class UserController {
 		$getParsedBody = $request->getParsedBody();
 		$datas = new stdClass();
 		$datas->params = json_decode(json_encode($getParsedBody), FALSE);
+
+		if (!isset($datas->params->dpo))
+			$datas->params->dpo = false;
 
 		$updateUser = "UPDATE `users` SET `name` = :name, 
 										  `userName` = :userName, ";
