@@ -401,6 +401,30 @@
 			   		hide: 		  true
 			   },
 			   {
+			   		headerName:   "Type de données collectées", 
+			   		width: 		  5, 
+			   		field: 		  "rgpdTypeData", 
+			   		hide: 		  true
+			   },
+			   {
+			   		headerName:   "Fianlité de la collecte", 
+			   		width: 		  5, 
+			   		field: 		  "rgpdFinalite", 
+			   		hide: 		  true
+			   },
+			   {
+			   		headerName:   "Processus lié", 
+			   		width: 		  5, 
+			   		field: 		  "rgpdProcessus", 
+			   		hide: 		  true
+			   },
+			   {
+			   		headerName:   "Impact", 
+			   		width: 		  5, 
+			   		field: 		  "rgpdImpact", 
+			   		hide: 		  true
+			   },
+			   {
 			   		headerName:   "Date dernier changement de statut", 
 			   		width: 		  5, 
 			   		field: 		  "dateNewStatus", 
@@ -497,6 +521,10 @@
 								 'projSched6External',
 								 'projSched6Assets',
 								 'constraints',
+								 'rgpdTypeData',
+								 'rgpdFinalite',
+								 'rgpdProcessus',
+								 'rgpdImpact',
 								 'status.label',
 								 'dateNewStatus',
 								 'prevStatuses'

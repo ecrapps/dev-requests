@@ -16,7 +16,8 @@ class UserController {
 							`userName`, 
 							`name`, 
 							`userGroup`, 
-							`dpo` 
+							`dpo`, 
+							`email` 
 						FROM `users`";
 		$getUsersResult = $this->container->db->query($getUsers);
 
@@ -33,7 +34,8 @@ class UserController {
 							`userName`, 
 							`name`, 
 							`userGroup`, 
-							`dpo` 
+							`dpo`, 
+							`email` 
 						FROM `users`  
    						WHERE `users` . `id` = :idUser";
 		$getUserResult = $this->container->db->query($getUser, $datas);
@@ -52,12 +54,14 @@ class UserController {
 											`userName`, 
 											`passwd`, 
 											`userGroup`, 
-											`dpo`) 
+											`dpo`,
+											`email`) 
 								VALUES (:name, 
 										:userName, 
 										:passwd, 
 										:userGroup, 
-										:dpo)";
+										:dpo,
+										:email)";
 		$createUserResult = $this->container->db->query($createUser, $datas);
 		
 		return $response->withStatus(200)
@@ -76,7 +80,8 @@ class UserController {
 			$updateUser .= 				  "`passwd` = :passwd, ";
 		}
 		$updateUser .= 				  "`userGroup` = :userGroup, 
-									   `dpo` = :dpo 
+									   `dpo` = :dpo,
+									   `email` = :email 
 						WHERE `users`.`id` = :idUser";
 		$updateUserResult = $this->container->db->query($updateUser, $datas);
 

@@ -117,6 +117,7 @@ class RequestController {
 		$datas = new stdClass();
 		$datas->params = json_decode(json_encode($getParsedBody), FALSE);
 
+		$projectName = filter_var($getParsedBody['projectName'], FILTER_SANITIZE_STRING);
 		$idApplicant = filter_var($getParsedBody['idApplicant'], FILTER_SANITIZE_STRING);
 
 		$getApplicant = "SELECT `userName`  FROM `users` WHERE `id` = '".$idApplicant."'";
@@ -255,6 +256,8 @@ class RequestController {
 								   :idStatus,
 								   NOW())";
 		$createRequestResult = $this->container->db->query($createRequest, $datas);
+
+		$this->sendMailDPO('create', $projectName);
 		
 		return $response->withStatus(200)
         				->write(json_encode($createRequestResult && $fileUploadResult,JSON_NUMERIC_CHECK));
@@ -265,6 +268,7 @@ class RequestController {
 		$datas = new stdClass();
 		$datas->params = json_decode(json_encode($getParsedBody), FALSE);
 
+		$projectName = filter_var($getParsedBody['projectName'], FILTER_SANITIZE_STRING);
 		$idApplicant = filter_var($getParsedBody['idApplicant'], FILTER_SANITIZE_STRING);
 
 		$getApplicant = "SELECT `userName`  FROM `users` WHERE `id` = '".$idApplicant."'";
@@ -355,6 +359,8 @@ class RequestController {
 												   `rgpdImpact` = :rgpdImpact 
 							WHERE `requests`.`id` = :idRequest";
 		$updateRequestResult = $this->container->db->query($updateRequest, $datas);
+
+		$this->sendMailDPO('update', $projectName);
 
 		return $response->withStatus(200)
 						->write(json_encode($updateRequestResult && $fileUploadResult,JSON_NUMERIC_CHECK));
@@ -458,135 +464,141 @@ class RequestController {
 
 		$PDF = new FPDI(); // Création de l'instance PDF
 		$pageCount = $PDF->setSourceFile(ROOT_FOLDER."/dependencies/includes/Fiche info projet.pdf"); // On définit notre pdf source
+		// PAGE 1
 		$tplIdx = $PDF->importPage(1); // On récupère la page 1 de la source
 		$PDF->addPage(); // On crée une page à notre pdf toujours vierge
 		$PDF->useTemplate($tplIdx); // Sur cette page on dessine notre pdf source
 		$PDF->SetAutoPageBreak(false);
 		$PDF->SetFont("Arial", "", 8);
-		$PDF->setXY(100,12.5);
+		$PDF->setXY(100,13);
 		$PDF->Cell(20, 4,utf8_decode($request['projectName']),0,1,'L'); // Intitulé
-		$PDF->setXY(45,28);
+		$PDF->setXY(45,31.5);
 		$PDF->Cell(20, 4,utf8_decode($request['applicant']),0,1,'L'); // Demandeur
-		$PDF->setXY(45,33);
+		$PDF->setXY(45,36.5);
 		$PDF->Cell(20, 4,utf8_decode($request['department']),0,1,'L'); // Service
-		$PDF->setXY(155,28);
+		$PDF->setXY(155,31.5);
 		$PDF->Cell(20, 4,utf8_decode($request['status']),0,1,'L'); // Statut
-		$PDF->setXY(155,33);
+		$PDF->setXY(155,36.5);
 		$tmp = explode("-", substr($request['dateNewStatus'], 0, 10));
 		$PDF->Cell(20, 4,$tmp[2] . "/" . $tmp[1] . "/" . $tmp[0],0,1,'L'); // Modifié le
-		$PDF->setXY(45,53);
+		$PDF->setXY(45,57);
 		$PDF->MultiCell(157, 4,utf8_decode($request['currentSituationDescr']),0,'L', false); // Situation actuelle
-		$PDF->setXY(45,74);
+		$PDF->setXY(45,103);
 		$PDF->MultiCell(157, 4,utf8_decode($request['currentIssueDescr']),0,'L', false); // Problème
-		$PDF->setXY(45,94);
+		$PDF->setXY(45,150);
 		$PDF->MultiCell(157, 4,utf8_decode($request['proposedSolutionDescr']),0,'L', false); // Solution proposée
-		$PDF->setXY(90,130);
+		$PDF->setXY(90,216.5);
 		$PDF->Cell(20, 4,$request['benInvY1'],0,1,'C'); // Investissements Y1
-		$PDF->setXY(113,130);
+		$PDF->setXY(113,216.5);
 		$PDF->Cell(20, 4,$request['benInvY2'],0,1,'C'); // Investissements Y2
-		$PDF->setXY(135,130);
+		$PDF->setXY(135,216.5);
 		$PDF->Cell(20, 4,$request['benInvY3'],0,1,'C'); // Investissements Y3
-		$PDF->setXY(158,130);
+		$PDF->setXY(158,216.5);
 		$PDF->Cell(20, 4,$request['benInvY4'],0,1,'C'); // Investissements Y4
-		$PDF->setXY(181,130);
+		$PDF->setXY(181,216.5);
 		$PDF->Cell(20, 4,$request['benInvY1'] + $request['benInvY2'] + $request['benInvY3'] + $request['benInvY4'],0,1,'C'); // Investissements Total
-		$PDF->setXY(90,135.5);
+		$PDF->setXY(90,222.5);
 		$PDF->Cell(20, 4,$request['benCostY1'],0,1,'C'); // Coûts d'exploitation Y1
-		$PDF->setXY(113,135.5);
+		$PDF->setXY(113,222.5);
 		$PDF->Cell(20, 4,$request['benCostY2'],0,1,'C'); // Coûts d'exploitation Y2
-		$PDF->setXY(135,135.5);
+		$PDF->setXY(135,222.5);
 		$PDF->Cell(20, 4,$request['benCostY3'],0,1,'C'); // Coûts d'exploitation Y3
-		$PDF->setXY(158,135.5);
+		$PDF->setXY(158,222.5);
 		$PDF->Cell(20, 4,$request['benCostY4'],0,1,'C'); // Coûts d'exploitation Y4
-		$PDF->setXY(181,135.5);
+		$PDF->setXY(181,222.5);
 		$PDF->Cell(20, 4,$request['benCostY1'] + $request['benCostY2'] + $request['benCostY3'] + $request['benCostY4'],0,1,'C'); // Coûts d'exploitation Total
-		$PDF->setXY(90,140.5);
+		$PDF->setXY(90,228);
 		$PDF->Cell(20, 4,$request['benBenefY1'],0,1,'C'); // Bénéfices Y1
-		$PDF->setXY(113,140.5);
+		$PDF->setXY(113,228);
 		$PDF->Cell(20, 4,$request['benBenefY2'],0,1,'C'); // Bénéfices Y2
-		$PDF->setXY(135,140.5);
+		$PDF->setXY(135,228);
 		$PDF->Cell(20, 4,$request['benBenefY3'],0,1,'C'); // Bénéfices Y3
-		$PDF->setXY(158,140.5);
+		$PDF->setXY(158,228);
 		$PDF->Cell(20, 4,$request['benBenefY4'],0,1,'C'); // Bénéfices Y4
-		$PDF->setXY(181,140.5);
+		$PDF->setXY(181,228);
 		$PDF->Cell(20, 4,$request['benBenefY1'] + $request['benBenefY2'] + $request['benBenefY3'] + $request['benBenefY4'],0,1,'C'); // Bénéfices Total
-		$PDF->setXY(90,145.5);
+		$PDF->setXY(90,233);
 		$PDF->Cell(20, 4,$request['benBenefY1'] - ($request['benInvY1'] + $request['benCostY1']),0,1,'C'); // Total Y1
-		$PDF->setXY(113,145.5);
+		$PDF->setXY(113,233);
 		$PDF->Cell(20, 4,$request['benBenefY2'] - ($request['benInvY2'] + $request['benCostY2']),0,1,'C'); // Total Y2
-		$PDF->setXY(135,145.5);
+		$PDF->setXY(135,233);
 		$PDF->Cell(20, 4,$request['benBenefY3'] - ($request['benInvY3'] + $request['benCostY3']),0,1,'C'); // Total Y3
-		$PDF->setXY(158,145.5);
+		$PDF->setXY(158,233);
 		$PDF->Cell(20, 4,$request['benBenefY4'] - ($request['benInvY4'] + $request['benCostY4']),0,1,'C'); // Total Y4
-		$PDF->setXY(181,145.5);
+		$PDF->setXY(181,233);
 		$PDF->Cell(20, 4,$request['benBenefY1'] - ($request['benInvY1'] + $request['benCostY1']) + 
 						 $request['benBenefY2'] - ($request['benInvY2'] + $request['benCostY2']) + 
 						 $request['benBenefY3'] - ($request['benInvY3'] + $request['benCostY3']) + 
 						 $request['benBenefY4'] - ($request['benInvY4'] + $request['benCostY4']),0,1,'C'); // Total Total
-		$PDF->setXY(25,166);
+		$PDF->setXY(25,253.5);
 		$PDF->Cell(60, 4,$request['budgetEstimated'],0,1,'L'); // Budget estimé
-		$PDF->setXY(125,166);
+		$PDF->setXY(125,253.5);
 		$PDF->Cell(60, 4,$request['budgetAvailable'],0,1,'L'); // Budget disponible
-		$PDF->setXY(45,186.5);
+		$PDF->setXY(45,274);
 		$PDF->Cell(40, 4,utf8_decode($request['projectManager']),0,1,'L'); // Sponsor du projet
-		$PDF->setXY(155,186.5);
+		$PDF->setXY(155,274);
 		$PDF->Cell(40, 4,utf8_decode($request['projectManagerBusiness']),0,1,'L'); // Chef de projet Business
-		$PDF->setXY(45,191.5);
+		$PDF->setXY(45,279.5);
 		$PDF->Cell(40, 4,utf8_decode($request['projectManagerIT']),0,1,'L'); // Chef de projet IT
-		$PDF->setXY(90,224);
+
+		// PAGE 2
+		$tplIdx = $PDF->importPage(2); // On récupère la page 1 de la source
+		$PDF->addPage(); // On crée une page à notre pdf toujours vierge
+		$PDF->useTemplate($tplIdx); // Sur cette page on dessine notre pdf source
+		$PDF->setXY(90,31.5);
 		$PDF->Cell(20, 4,$request['projSched1Business'],0,1,'C');
-		$PDF->setXY(113,224);
+		$PDF->setXY(113,31.5);
 		$tmp = explode("-", substr($request['projSched1ExpDate'], 0, 10));
 		$PDF->Cell(20, 4,$tmp[2] . "/" . $tmp[1] . "/" . $tmp[0],0,1,'C');
-		$PDF->setXY(135,224);
+		$PDF->setXY(135,31.5);
 		$PDF->Cell(20, 4,$request['projSched1IT'],0,1,'C');
-		$PDF->setXY(158,224);
+		$PDF->setXY(158,31.5);
 		$PDF->Cell(20, 4,$request['projSched1External'],0,1,'C');
-		$PDF->setXY(181,224);
+		$PDF->setXY(181,31.5);
 		$PDF->Cell(20, 4,$request['projSched1Assets'],0,1,'C');
-		$PDF->setXY(90,229.5);
+		$PDF->setXY(90,37);
 		$PDF->Cell(20, 4,$request['projSched3Business'],0,1,'C');
-		$PDF->setXY(113,229.5);
+		$PDF->setXY(113,37);
 		$tmp = explode("-", substr($request['projSched3ExpDate'], 0, 10));
 		$PDF->Cell(20, 4,$tmp[2] . "/" . $tmp[1] . "/" . $tmp[0],0,1,'C');
-		$PDF->setXY(135,229.5);
+		$PDF->setXY(135,37);
 		$PDF->Cell(20, 4,$request['projSched3IT'],0,1,'C');
-		$PDF->setXY(158,229.5);
+		$PDF->setXY(158,37);
 		$PDF->Cell(20, 4,$request['projSched3External'],0,1,'C');
-		$PDF->setXY(181,229.5);
+		$PDF->setXY(181,37);
 		$PDF->Cell(20, 4,$request['projSched3Assets'],0,1,'C');
-		$PDF->setXY(90,234.5);
+		$PDF->setXY(90,42);
 		$PDF->Cell(20, 4,$request['projSched4Business'],0,1,'C');
-		$PDF->setXY(113,234.5);
+		$PDF->setXY(113,42);
 		$tmp = explode("-", substr($request['projSched4ExpDate'], 0, 10));
 		$PDF->Cell(20, 4,$tmp[2] . "/" . $tmp[1] . "/" . $tmp[0],0,1,'C');
-		$PDF->setXY(135,234.5);
+		$PDF->setXY(135,42);
 		$PDF->Cell(20, 4,$request['projSched4IT'],0,1,'C');
-		$PDF->setXY(158,234.5);
+		$PDF->setXY(158,42);
 		$PDF->Cell(20, 4,$request['projSched4External'],0,1,'C');
-		$PDF->setXY(181,234.5);
+		$PDF->setXY(181,42);
 		$PDF->Cell(20, 4,$request['projSched4Assets'],0,1,'C');
-		$PDF->setXY(90,239.5);
+		$PDF->setXY(90,47);
 		$PDF->Cell(20, 4,$request['projSched5Business'],0,1,'C');
-		$PDF->setXY(113,239.5);
+		$PDF->setXY(113,47);
 		$tmp = explode("-", substr($request['projSched5ExpDate'], 0, 10));
 		$PDF->Cell(20, 4,$tmp[2] . "/" . $tmp[1] . "/" . $tmp[0],0,1,'C');
-		$PDF->setXY(135,239.5);
+		$PDF->setXY(135,47);
 		$PDF->Cell(20, 4,$request['projSched5IT'],0,1,'C');
-		$PDF->setXY(158,239.5);
+		$PDF->setXY(158,47);
 		$PDF->Cell(20, 4,$request['projSched5External'],0,1,'C');
-		$PDF->setXY(181,239.5);
+		$PDF->setXY(181,47);
 		$PDF->Cell(20, 4,$request['projSched5Assets'],0,1,'C');
-		$PDF->setXY(90,244.5);
+		$PDF->setXY(90,52);
 		$PDF->Cell(20, 4,$request['projSched6Business'],0,1,'C');
-		$PDF->setXY(113,244.5);
+		$PDF->setXY(113,52);
 		$tmp = explode("-", substr($request['projSched6ExpDate'], 0, 10));
 		$PDF->Cell(20, 4,$tmp[2] . "/" . $tmp[1] . "/" . $tmp[0],0,1,'C');
-		$PDF->setXY(135,244.5);
+		$PDF->setXY(135,52);
 		$PDF->Cell(20, 4,$request['projSched6IT'],0,1,'C');
-		$PDF->setXY(158,244.5);
+		$PDF->setXY(158,52);
 		$PDF->Cell(20, 4,$request['projSched6External'],0,1,'C');
-		$PDF->setXY(181,244.5);
+		$PDF->setXY(181,52);
 		$PDF->Cell(20, 4,$request['projSched6Assets'],0,1,'C');
 		/*$PDF->setXY(90,249.5);
 		$PDF->Cell(20, 4,$request['projSched6Business'],0,1,'C');
@@ -600,7 +612,7 @@ class RequestController {
 		$PDF->setXY(181,249.5);
 		$PDF->Cell(20, 4,$request['projSched6Assets'],0,1,'C');*/
 		//$PDF->setXY(90,255);
-		$PDF->setXY(90,249.5);
+		$PDF->setXY(90,57);
 		$PDF->Cell(20, 4,$request['projSched1Business'] + 
 						 /*$request['projSched2Business'] +*/ 
 						 $request['projSched3Business'] + 
@@ -608,7 +620,7 @@ class RequestController {
 						 $request['projSched5Business'] + 
 						 $request['projSched6Business'],0,1,'C');
 		//$PDF->setXY(135,255);
-		$PDF->setXY(135,249.5);
+		$PDF->setXY(135,57);
 		$PDF->Cell(20, 4,$request['projSched1IT'] + 
 						 /*$request['projSched2IT'] + */
 						 $request['projSched3IT'] + 
@@ -616,7 +628,7 @@ class RequestController {
 						 $request['projSched5IT'] + 
 						 $request['projSched6IT'],0,1,'C');
 		//$PDF->setXY(158,255);
-		$PDF->setXY(158,249.5);
+		$PDF->setXY(158,57);
 		$PDF->Cell(20, 4,$request['projSched1External'] + 
 						 /*$request['projSched2External'] + */
 						 $request['projSched3External'] + 
@@ -624,15 +636,23 @@ class RequestController {
 						 $request['projSched5External'] + 
 						 $request['projSched6External'],0,1,'C');
 		//$PDF->setXY(181,255);
-		$PDF->setXY(181,249.5);
+		$PDF->setXY(181,57);
 		$PDF->Cell(20, 4,$request['projSched1Assets'] + 
 						 /*$request['projSched2Assets'] + */
 						 $request['projSched3Assets'] + 
 						 $request['projSched4Assets'] + 
 						 $request['projSched5Assets'] + 
 						 $request['projSched6Assets'],0,1,'C');
-		$PDF->setXY(45,273);
+		$PDF->setXY(45,83);
 		$PDF->MultiCell(157, 4,utf8_decode($request['constraints']),0,'L', false);
+		$PDF->setXY(15,150);
+		$PDF->MultiCell(177, 4,utf8_decode($request['rgpdTypeData']),0,'L', false);
+		$PDF->setXY(15,185.5);
+		$PDF->MultiCell(177, 4,utf8_decode($request['rgpdFinalite']),0,'L', false);
+		$PDF->setXY(15,222);
+		$PDF->MultiCell(177, 4,utf8_decode($request['rgpdProcessus']),0,'L', false);
+		$PDF->setXY(15,258);
+		$PDF->MultiCell(177, 4,utf8_decode($request['rgpdImpact']),0,'L', false);
 
 		$PDF->Output($chemin_complet, "F"); // J'enregistre le tout dans $chemin_complet. S'il n'existe pas, ça le crée
 
@@ -646,6 +666,49 @@ class RequestController {
 
 		readfile($chemin_complet);
 		return $res;
+	}
+
+	private function sendMailDPO($mode, $projectName) {
+		$getEmailDPO = "SELECT `email`  FROM `users` WHERE `dpo` = true";
+		$getEmailDPOResult = $this->container->db->query($getEmailDPO);
+
+		if (sizeof($getEmailDPOResult)>0) {
+			($mode === "create") ? $modeMessage = "créée" : $modeMessage = "modifiée";
+			($mode === "create") ? $modeSujet = "Création" : $modeSujet = "Modification";
+	
+			// Déclaration de l'adresse de destination.
+			$mail = $getEmailDPOResult[0]['email'];
+			//=====Déclaration du message
+			$passage_ligne = "\n";
+			$message_txt = "Bonjour,".$passage_ligne.$passage_ligne;
+			$message_txt .= "La demande suivante a été ".$modeMessage." : ".$projectName.$passage_ligne.$passage_ligne;
+
+			//=====Création de la boundary
+			$boundary = "-----=".md5(rand());
+			//==========
+
+			//=====Définition du sujet.
+			$sujet = "DevReq - ".$modeSujet." d'une demande de développement";
+			//=========
+				
+			//=====Création du header de l'e-mail.
+			$header = "From: \"DevReq (ne pas répondre)\" <noreply@deutschebahn.com>".$passage_ligne;
+			
+			for ($i=1 ; $i<sizeof($getEmailDPOResult) ; $i++)
+				$header.= "Cc: \"".$getEmailDPOResult[$i]['email']."\" <".$getEmailDPOResult[$i]['email'].">".$passage_ligne;
+			
+			$header.= "MIME-Version: 1.0".$passage_ligne;
+			$header.= "Content-Type: text/plain; charset=ISO-8859-1".$passage_ligne." boundary=\"$boundary\"".$passage_ligne;
+			//==========
+	
+			//=====Ajout du message au format texte.
+			$message = $passage_ligne.$message_txt.$passage_ligne;
+			//==========
+				
+			//=====Envoi de l'e-mail.
+			mail($mail,utf8_decode($sujet),utf8_decode($message),utf8_decode($header));
+			//==========
+		}
 	}
 
 }
