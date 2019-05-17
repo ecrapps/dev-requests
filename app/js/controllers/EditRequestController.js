@@ -72,7 +72,8 @@
 						                title: 'Demande sauvegardée',
 						                body: 'Votre demande a bien été sauvegardée.',
 						                timeout: 3000
-						           	});
+									});
+						$location.path('/getRequests');
 						console.log("createRequest succeeded");
 					}, function myError(reason) {
 						console.log("createRequest failed");

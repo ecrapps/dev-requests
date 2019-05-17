@@ -254,27 +254,27 @@
 
 		<p class="section-title">Informations RGPD</p>
 		<div class="form-group row">
-			<label for="rgpd-type-data" class="col-sm-3 col-form-label">Type de données collectées et/ou utilisées</label>
+			<label for="rgpd-type-data" class="col-sm-3 col-form-label">Type de données collectées et/ou utilisées <span class="required-field">*</span></label>
 			<div class="col-sm-9">
-				<textarea class="form-control" ng-model="request.rgpdTypeData" id="rgpd-type-data" rows="4" cols="40"></textarea>
+				<textarea class="form-control" ng-model="request.rgpdTypeData" id="rgpd-type-data" rows="4" cols="40" required></textarea>
 			</div>
 		</div>
 		<div class="form-group row">
-			<label for="rgpd-finalite" class="col-sm-3 col-form-label">Finalité de la collecte et/ou de l'utilisation de ces données</label>
+			<label for="rgpd-finalite" class="col-sm-3 col-form-label">Finalité de la collecte et/ou de l'utilisation de ces données <span class="required-field">*</span></label>
 			<div class="col-sm-9">
-				<textarea class="form-control" ng-model="request.rgpdFinalite" id="rgpd-finalite" rows="4" cols="40"></textarea>
+				<textarea class="form-control" ng-model="request.rgpdFinalite" id="rgpd-finalite" rows="4" cols="40" required></textarea>
 			</div>
 		</div>
 		<div class="form-group row">
-			<label for="rgpd-processus" class="col-sm-3 col-form-label">Processus lié</label>
+			<label for="rgpd-processus" class="col-sm-3 col-form-label">Processus lié <span class="required-field">*</span></label>
 			<div class="col-sm-9">
-				<textarea class="form-control" ng-model="request.rgpdProcessus" id="rgpd-processus" rows="4" cols="40"></textarea>
+				<textarea class="form-control" ng-model="request.rgpdProcessus" id="rgpd-processus" rows="4" cols="40" required></textarea>
 			</div>
 		</div>
 		<div class="form-group row">
-			<label for="rgpd-impact" class="col-sm-3 col-form-label">Impact</label>
+			<label for="rgpd-impact" class="col-sm-3 col-form-label">Impact <span class="required-field">*</span></label>
 			<div class="col-sm-9">
-				<textarea class="form-control" ng-model="request.rgpdImpact" id="rgpd-impact" rows="4" cols="40"></textarea>
+				<textarea class="form-control" ng-model="request.rgpdImpact" id="rgpd-impact" rows="4" cols="40" required></textarea>
 			</div>
 		</div>
 
