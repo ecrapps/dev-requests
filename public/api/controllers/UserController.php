@@ -17,7 +17,8 @@ class UserController {
 							`name`, 
 							`userGroup`, 
 							`dpo`, 
-							`email` 
+							`email`, 
+							`inactif` 
 						FROM `users`";
 		$getUsersResult = $this->container->db->query($getUsers);
 
@@ -35,7 +36,8 @@ class UserController {
 							`name`, 
 							`userGroup`, 
 							`dpo`, 
-							`email` 
+							`email`, 
+							`inactif` 
 						FROM `users`  
    						WHERE `users` . `id` = :idUser";
 		$getUserResult = $this->container->db->query($getUser, $datas);
@@ -53,18 +55,23 @@ class UserController {
 		if (!isset($datas->params->dpo))
 			$datas->params->dpo = false;
 
+		if (!isset($datas->params->inactif))
+			$datas->params->inactif = false;
+
 		$createUser = "INSERT INTO `users` (`name`, 
 											`userName`, 
 											`passwd`, 
 											`userGroup`, 
 											`dpo`,
-											`email`) 
+											`email`,
+											`inactif`) 
 								VALUES (:name, 
 										:userName, 
 										:passwd, 
 										:userGroup, 
 										:dpo,
-										:email)";
+										:email,
+										:inactif)";
 		$createUserResult = $this->container->db->query($createUser, $datas);
 		
 		return $response->withStatus(200)
@@ -79,6 +86,9 @@ class UserController {
 		if (!isset($datas->params->dpo))
 			$datas->params->dpo = false;
 
+		if (!isset($datas->params->inactif))
+			$datas->params->inactif = false;
+
 		$updateUser = "UPDATE `users` SET `name` = :name, 
 										  `userName` = :userName, ";
 		if (isset($datas->params->passwd)) {
@@ -87,7 +97,8 @@ class UserController {
 		}
 		$updateUser .= 				  "`userGroup` = :userGroup, 
 									   `dpo` = :dpo,
-									   `email` = :email 
+									   `email` = :email,
+									   `inactif` = :inactif 
 						WHERE `users`.`id` = :idUser";
 		$updateUserResult = $this->container->db->query($updateUser, $datas);
 

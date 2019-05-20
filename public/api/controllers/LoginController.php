@@ -21,6 +21,7 @@ class LoginController {
 		$checkLogin .= "FROM users ";
 		$checkLogin .= "WHERE userName = :login ";
 		$checkLogin .= "AND passwd = :password ";
+		$checkLogin .= "AND inactif = 0 ";
 		$checkLoginResult = $this->container->db->query($checkLogin, $datas);
 
 		$responseLogin = new stdClass();
