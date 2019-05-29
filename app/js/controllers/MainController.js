@@ -13,6 +13,7 @@
 			$rootScope.user.name = "";
 			$rootScope.user.userName = "";
 			$rootScope.user.groupIsIT = false;
+			$rootScope.user.dpo = false;
 		}
 	);
 })();

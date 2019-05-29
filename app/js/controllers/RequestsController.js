@@ -61,7 +61,7 @@
 			   		headerName:   "", 
 			   		width: 		  25, 
 			   		suppressFilter: true,
-			   		template: 	  "<span ng-if=\"user.groupIsIT || (data.status.id===1 && data.applicant.name===\'"+$rootScope.user.name+"\')\"><a href='#/editRequest/{{data.id}}' title='Modifier'><i class='far fa-edit'></i></a></span>"
+			   		template: 	  "<span ng-if=\"user.groupIsIT || (user.dpo && data.status.id <= 3) || (data.status.id===1 && data.applicant.name===\'"+$rootScope.user.name+"\')\"><a href='#/editRequest/{{data.id}}' title='Modifier'><i class='far fa-edit'></i></a></span>"
 			   },
 			   {
 			   		headerName:   "", 
@@ -576,8 +576,8 @@
 					});
 			}
 
-			function setRequestStatus(idRequest, idStatus) {
-				RequestService.setRequestStatus(idRequest, idStatus)
+			function setRequestStatus(idRequest, idStatus, userNewStatus) {
+				RequestService.setRequestStatus(idRequest, idStatus, userNewStatus)
 					.then(function mySuccess(response) {
 						console.log("setRequestStatus succeeded");
 					}, function myError(reason) {
@@ -585,8 +585,8 @@
 					});
 			}
 
-			function saveStatus(idRequest, idNewStatus) {
-				setRequestStatus(idRequest, idNewStatus);
+			function saveStatus(idRequest, idNewStatus, userNewStatus) {
+				setRequestStatus(idRequest, idNewStatus, userNewStatus);
 			}
 
 			function toggleStatusChanged(idRequest, state) {
@@ -595,7 +595,36 @@
 
 			// ag-grid methods
 			function statusCellRendererFunc() {
-				return "<span ng-if=\"user.groupIsIT\"><select ng-init=\"newStatus.id=data.status.id\" ng-change=\"newStatus.id!=data.status.id ? toggleStatusChanged(data.id, true) : toggleStatusChanged(data.id, false)\" style=\"width:100px\" ng-model=\"newStatus\" ng-options=\"status as status.label disable when (data.status.id === 1 && status.id > 2) for status in statuses track by status.id\"><option value=\"\" disabled>Choisissez un statut</option></select><span ng-if='statusChanged[data.id]'>&nbsp;&nbsp;<a href=\"#/getRequests/\" ng-click=\"saveStatus(data.id, newStatus.id)\"><i class=\"far fa-save\"></i></a></span></span><span ng-show=\"!user.groupIsIT\">{{data.status.label}}</span>";
+				return "<span ng-if=\"user.groupIsIT || user.dpo\">" +
+							"<select ng-init=\"newStatus.id=data.status.id\" " +
+									 "ng-change=\"newStatus.id!=data.status.id ? toggleStatusChanged(data.id, true) : toggleStatusChanged(data.id, false)\" " +
+									 "style=\"width:100px\" ng-model=\"newStatus\" " +
+									 "ng-options=\"status as status.label disable when ( " +
+													  "(data.status.id === 1 && user.groupIsIT && !user.dpo && status.id > 1) || " +
+													  "(data.status.id === 1 && user.dpo && !user.groupIsIT && status.id > 3) || " +
+													  "(data.status.id === 1 && user.groupIsIT && user.dpo  && status.id > 3) || " +
+													  
+													  "(data.status.id === 2 && user.groupIsIT && !user.dpo && (status.id === 1 || status.id === 3)) || " +
+													  "(data.status.id === 2 && user.dpo && !user.groupIsIT && (status.id === 1 || status.id > 3)) || " +
+													  "(data.status.id === 2 && user.groupIsIT && user.dpo  && status.id === 1) || " +
+													  
+													  "(data.status.id === 3 && user.groupIsIT && !user.dpo && status.id !== 3) || " +
+													  "(data.status.id === 3 && user.dpo && !user.groupIsIT && (status.id === 1 || status.id > 3)) || " +
+													  "(data.status.id === 3 && user.groupIsIT && user.dpo  && (status.id === 1 || status.id > 3)) || " +
+													  
+													  "(data.status.id > 3 && user.groupIsIT && !user.dpo && status.id <= 3) || " +
+													  "(data.status.id > 3 && user.dpo && !user.groupIsIT && status.id !== data.status.id) || " +
+													  "(data.status.id > 3 && user.groupIsIT && user.dpo  && status.id <= 3)" +
+												" ) for status in statuses track by status.id\">" +
+								"<option value=\"\" disabled>Choisissez un statut</option>" +
+							"</select>" +
+							"<span ng-if='statusChanged[data.id]'>&nbsp;&nbsp;" +
+								"<a href=\"#/getRequests/\" ng-click=\"saveStatus(data.id, newStatus.id, user.userName)\"><i class=\"far fa-save\"></i></a>" +
+							"</span>" +
+						"</span>" +
+						"<span ng-show=\"!user.groupIsIT && !user.dpo\">" +
+							"{{data.status.label}}" +
+						"</span>";
 			}
 			// end ag-grid methods
 		}

@@ -124,6 +124,7 @@
 		$('#rgpdFinalite').html(request.rgpdFinalite);
 		$('#rgpdProcessus').html(request.rgpdProcessus);
 		$('#rgpdImpact').html(request.rgpdImpact);
+		$('#rgpdCommentaireDPO').html(request.rgpdCommentaireDPO);
 
 	  // Statuts précédents
 	  var html = "";
@@ -135,10 +136,10 @@
 		  html = "<ul>";
 
 		  for (i = 0, len = array.length, text = ""; i < len; i++) { 
-			  text = array[i][0];
+				text = array[i][0];
 			  array[i] = text.split(" --> ");
-		  	  var tmp = array[i][1].substr(0, 10).split("-").map(function(value, index) {return [value];});
-			  html = html.concat("<li>" + array[i][0] + " (" + tmp[2] + "/" + tmp[1] + "/" + tmp[0] + ")</li>");
+		  	var tmp = array[i][1].substr(0, 10).split("-").map(function(value, index) {return [value];});
+			  html = html.concat("<li>" + array[i][0] + " le " + tmp[2] + "/" + tmp[1] + "/" + tmp[0] + " par " + array[i][2] + "</li>");
 		  }
 		  html.concat("</ul>");
 	  }
@@ -350,8 +351,12 @@
 						<div class="col-md-3 label-request-details">Impact</div>
 						<div class="col-md-6" id="rgpdImpact"></div>
 					</div>
+					<div class="row mt-3">
+						<div class="col-md-3 label-request-details">Commentaire DPO</div>
+						<div class="col-md-6" id="rgpdCommentaireDPO"></div>
+					</div>
 
-					<p class="section-title">Statuts précédents</p>
+					<p class="section-title">Historique des statuts précédents</p>
 					<div class="row mt-3">
 						<div class="col-md-3 label-request-details">Statuts précédents</div>
 						<div class="col-md-9" id="prevStatuses"></div>

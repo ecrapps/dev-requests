@@ -17,7 +17,7 @@ class LoginController {
 		$datas->params = json_decode(json_encode($getParsedBody), FALSE);
 		$datas->params->password = hash('sha256', $datas->params->password);
 
-		$checkLogin = "SELECT id, userName, name, userGroup ";
+		$checkLogin = "SELECT id, userName, name, userGroup, dpo ";
 		$checkLogin .= "FROM users ";
 		$checkLogin .= "WHERE userName = :login ";
 		$checkLogin .= "AND passwd = :password ";
@@ -36,6 +36,11 @@ class LoginController {
 				$responseLogin->user->groupIsIT = true;
 			else
 				$responseLogin->user->groupIsIT = false;
+			// Vérifier si l'utilisateur est DPO
+			if ($checkLoginResult[0]['dpo'] == 1)
+				$responseLogin->user->dpo = true;
+			else
+				$responseLogin->user->dpo = false;
 		}
 		else
 			$responseLogin->loginSucceed = false;

@@ -196,8 +196,10 @@ class RequestController {
 												   `rgpdFinalite`,
 												   `rgpdProcessus`,
 												   `rgpdImpact`,
+												   `rgpdCommentaireDPO`,
 												   `idStatus`,
-												   `dateNewStatus`) 
+												   `dateNewStatus`,
+												   `userNewStatus`) 
 						   VALUES (:idApplicant,
 								   :idDepartment,
 								   :projectName,
@@ -253,8 +255,10 @@ class RequestController {
 								   :rgpdFinalite,
 								   :rgpdProcessus,
 								   :rgpdImpact,
+								   :rgpdCommentaireDPO,
 								   :idStatus,
-								   NOW())";
+								   NOW(),
+								   '".$applicantUsername."')";
 		$createRequestResult = $this->container->db->query($createRequest, $datas);
 
 		$this->sendMailDPO('create', $projectName);
@@ -356,7 +360,8 @@ class RequestController {
 												   `rgpdTypeData` = :rgpdTypeData,
 												   `rgpdFinalite` = :rgpdFinalite,
 												   `rgpdProcessus` = :rgpdProcessus,
-												   `rgpdImpact` = :rgpdImpact 
+												   `rgpdImpact` = :rgpdImpact,
+												   `rgpdCommentaireDPO` = :rgpdCommentaireDPO 
 							WHERE `requests`.`id` = :idRequest";
 		$updateRequestResult = $this->container->db->query($updateRequest, $datas);
 
@@ -392,27 +397,30 @@ class RequestController {
 		$datas = new stdClass();
 		$datas->params = json_decode(json_encode($getParsedBody), FALSE);
 
-		// Récupérer le status actuel
-		// Récupérer l'historique des status
+		// Récupérer le statut actuel
+		// Récupérer l'historique des statuts
 		$getRequestStatus = "SELECT r.`idStatus`, 
 									s.`label` AS statusLabel, 
-									r.`dateNewStatus`, 
+									r.`dateNewStatus`,  
+									r.`userNewStatus`, 
 									r.`prevStatuses` 
 								FROM `requests` AS r 
 								LEFT JOIN `statuses` AS s ON r.`idStatus` = s.`id` 
 								WHERE r.`id` = ".$getParsedBody['idRequest'];
 		$getRequestStatusResult = $this->container->db->query($getRequestStatus);
-		// Ajouter à l'historique des status le statut actuel
+		// Ajouter à l'historique des statuts le statut actuel
 		$prevStatuses = $getRequestStatusResult[0]['prevStatuses'];
 		if (strlen($getRequestStatusResult[0]['prevStatuses']) != 0) {
 			$prevStatuses .= " ### ";
 		}
 		$prevStatuses .= $getRequestStatusResult[0]['statusLabel'] . " --> " . 
-						 $getRequestStatusResult[0]['dateNewStatus'];
+						 $getRequestStatusResult[0]['dateNewStatus'] . " --> " . 
+						 $getRequestStatusResult[0]['userNewStatus'];
 
 		$setRequestStatus = "UPDATE `requests` 
-								SET `requests`.`idStatus` = :idNewStatus,
+								SET `requests`.`idStatus` = :idNewStatus, 
 									`requests`.`dateNewStatus` = NOW(), 
+									`requests`.`userNewStatus` = :userNewStatus, 
 									`requests`.`prevStatuses` = '$prevStatuses' ".
 								"WHERE `requests`.`id` = :idRequest";
 		$setRequestStatusResult = $this->container->db->query($setRequestStatus, $datas);
@@ -645,15 +653,37 @@ class RequestController {
 						 $request['projSched6Assets'],0,1,'C');
 		$PDF->setXY(45,83);
 		$PDF->MultiCell(157, 4,utf8_decode($request['constraints']),0,'L', false);
-		$PDF->setXY(15,150);
+		$PDF->setXY(15,129);
 		$PDF->MultiCell(177, 4,utf8_decode($request['rgpdTypeData']),0,'L', false);
-		$PDF->setXY(15,185.5);
+		$PDF->setXY(15,155.5);
 		$PDF->MultiCell(177, 4,utf8_decode($request['rgpdFinalite']),0,'L', false);
-		$PDF->setXY(15,222);
+		$PDF->setXY(15,180);
 		$PDF->MultiCell(177, 4,utf8_decode($request['rgpdProcessus']),0,'L', false);
-		$PDF->setXY(15,258);
+		$PDF->setXY(15,206);
 		$PDF->MultiCell(177, 4,utf8_decode($request['rgpdImpact']),0,'L', false);
-
+		$PDF->setXY(15,232);
+		$PDF->MultiCell(177, 4,utf8_decode($request['rgpdCommentaireDPO']),0,'L', false);
+		// Historique des statuts précédents
+		$statut = explode(" ### ", $request['prevStatuses']);
+		if ($statut[0] == "") // N'a pas trouvé de chaîne ### dans prevStatuses
+			$statut = [];
+		for ($i = 0 ; $i < count($statut) ; $i++) {
+			$tmpStatut = explode(" --> ", $statut[$i]);
+			$statut[$i] = $tmpStatut;
+		}
+		$c = count($statut);
+		$statut[$c][0] = $request['status'];
+		$statut[$c][1] = $request['dateNewStatus'];
+		$statut[$c][2] = $request['userNewStatus'];
+		for ($i = 0, $y = 265 ; $i < count($statut) ; $i++, $y += 5) {
+			if (isset($statut[$i][2]) && $statut[$i][2] != "") {
+				$parQui = " par ".utf8_decode($statut[$i][2]);
+			} else {
+				$parQui = "";
+			}
+			$PDF->setXY(15, $y);
+			$PDF->MultiCell(177, 4,utf8_decode($statut[$i][0]).' le '.utf8_decode($statut[$i][1]).$parQui,1,'L', false);
+		}
 		$PDF->Output($chemin_complet, "F"); // J'enregistre le tout dans $chemin_complet. S'il n'existe pas, ça le crée
 
 		$res = $response->withHeader('Content-Description', 'File Transfer')

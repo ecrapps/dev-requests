@@ -272,13 +272,19 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<label for="rgpd-impact" class="col-sm-3 col-form-label">Impact <span class="required-field">*</span></label>
+			<label for="rgpd-impact" class="col-sm-3 col-form-label">Risque sur la vie privée <span class="required-field">*</span></label>
 			<div class="col-sm-9">
-				<textarea class="form-control" ng-model="request.rgpdImpact" id="rgpd-impact" rows="4" cols="40" required></textarea>
+				<textarea class="form-control" ng-model="request.rgpdImpact" id="rgpd-impact" rows="4" cols="40" required placeholder="Décrire les menaces potentielles pour la sécurité des données à caractère privé liées au traitement"></textarea>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="rgpd-commentaire-dpo" class="col-sm-3 col-form-label">Commentaire du DPO</label>
+			<div class="col-sm-9">
+				<textarea class="form-control" ng-model="request.rgpdCommentaireDPO" id="rgpd-commentaire-dpo" rows="4" cols="40" ng-disabled="!user.dpo"></textarea>
 			</div>
 		</div>
 
-		<p><span class="required-field">*</span> Champs obligatoire</p>
+		<p><span class="required-field">*</span> Champ obligatoire</p>
 		<button type="submit" ng-disabled="newRequestForm.$invalid" ng-click="editRequest(request)" class="btn btn-primary">Enregistrer</button>
 		<!-- <button type="reset" class="btn btn-default">Annuler</button>
 		<button type="button" ng-click="cancelEdit()" class="btn btn-default">Annuler</button> -->

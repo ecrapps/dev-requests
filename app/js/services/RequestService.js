@@ -40,6 +40,7 @@
 			if (typeof(request.rgpdFinalite) === 'undefined') { request.rgpdFinalite = ""; };
 			if (typeof(request.rgpdProcessus) === 'undefined') { request.rgpdProcessus = ""; };
 			if (typeof(request.rgpdImpact) === 'undefined') { request.rgpdImpact = ""; };
+			if (typeof(request.rgpdCommentaireDPO) === 'undefined') { request.rgpdCommentaireDPO = ""; };
 			var d1 = new Date(request.projSched1ExpDate) ;
 			d1.setTime( d1.getTime() - d1.getTimezoneOffset()*60*1000 );
 			var d3 = new Date(request.projSched3ExpDate) ;
@@ -105,6 +106,7 @@
 							rgpdFinalite: request.rgpdFinalite,
 							rgpdProcessus: request.rgpdProcessus,
 							rgpdImpact: request.rgpdImpact,
+							rgpdCommentaireDPO: request.rgpdCommentaireDPO,
 							idStatus: 1
 						}
 
@@ -183,6 +185,7 @@
 							rgpdFinalite: request.rgpdFinalite,
 							rgpdProcessus: request.rgpdProcessus,
 							rgpdImpact: request.rgpdImpact,
+							rgpdCommentaireDPO: request.rgpdCommentaireDPO
 						}
 			
 			return Upload.upload({
@@ -207,7 +210,7 @@
 
 			return $http({
 	        	method : "GET",
-	        	url : url_api + "getRequest" ,
+	        	url : url_api + "getRequest",
 	        	params : data
 		    });
 		}
@@ -219,20 +222,21 @@
 
 			return $http({
 	        	method : "DELETE",
-	        	url : url_api + "deleteRequest" ,
+	        	url : url_api + "deleteRequest",
 	        	params : data
 		    });
 		}
 
-		factory.setRequestStatus = function(idRequest, idNewStatus) {
+		factory.setRequestStatus = function(idRequest, idNewStatus, userNewStatus) {
 			var data = {
 				idRequest : idRequest,
-				idNewStatus : idNewStatus
+				idNewStatus : idNewStatus,
+				userNewStatus: userNewStatus
 			}
 
 			return $http({
 	        	method : "PUT",
-	        	url : url_api + "setRequestStatus" ,
+	        	url : url_api + "setRequestStatus",
 	        	data : data
 		    });
 		}
@@ -244,7 +248,7 @@
 
 			return $http({
 	        	method : "GET",
-	        	url : url_api + "generatePDF" ,
+	        	url : url_api + "generatePDF",
 	        	params : data,
 	        	responseType: 'blob'
 		    });
