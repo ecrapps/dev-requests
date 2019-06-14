@@ -711,7 +711,7 @@ class RequestController {
 			//=====Déclaration du message
 			$passage_ligne = "\n";
 			$message_txt = "Bonjour,".$passage_ligne.$passage_ligne;
-			$message_txt .= "La demande suivante a été ".$modeMessage." : ".$projectName.$passage_ligne.$passage_ligne;
+			$message_txt .= "La demande suivante a été ".$modeMessage." : \"".$projectName."\" dans DevReq et demande votre validation en tant que DPO.".$passage_ligne.$passage_ligne;
 
 			//=====Création de la boundary
 			$boundary = "-----=".md5(rand());

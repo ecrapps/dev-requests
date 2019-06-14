@@ -13,7 +13,7 @@
 			<label for="department" class="col-sm-3 col-form-label">Département <span class="required-field">*</span></label>
 			<div class="col-sm-3">
 				<select class="form-control" ng-model="request.department" ng-options="department as department.name for department in departments track by department.id"
-				 id="department" auto-focus required>
+				 id="department" auto-focus required ng-readonly="user.dpo && request.id">
 					<option value="" disabled>Choisir...</option>
 				</select>
 			</div>
@@ -23,7 +23,7 @@
 		<div class="form-group row">
 			<label for="project-name" class="col-sm-3 col-form-label">Intitulé du projet <span class="required-field">*</span></label>
 			<div class="col-sm-9">
-				<input type="text" class="form-control" ng-model="request.projectName" id="project-name" required />
+				<input type="text" class="form-control" ng-model="request.projectName" id="project-name" required ng-readonly="user.dpo && request.id" />
 			</div>
 		</div>
 		<div class="form-group row">
@@ -31,21 +31,21 @@
 				 class="required-field">*</span></label>
 			<div class="col-sm-9">
 				<textarea class="form-control" ng-model="request.currentSituationDescr" id="current-situation-descr" rows="4" cols="40"
-				 required></textarea>
+				 required ng-readonly="user.dpo && request.id"></textarea>
 			</div>
 		</div>
 		<div class="form-group row">
 			<label for="current-issue-descr" class="col-sm-3 col-form-label">Description du problème <span class="required-field">*</span></label>
 			<div class="col-sm-9">
 				<textarea class="form-control" ng-model="request.currentIssueDescr" id="current-issue-descr" rows="4" cols="40"
-				 required></textarea>
+				 required ng-readonly="user.dpo && request.id"></textarea>
 			</div>
 		</div>
 		<div class="form-group row">
 			<label for="proposed-solution-descr" class="col-sm-3 col-form-label">Description de la solution proposée <span class="required-field">*</span></label>
 			<div class="col-sm-9">
 				<textarea class="form-control" ng-model="request.proposedSolutionDescr" id="proposed-solution-descr" rows="4" cols="40"
-				 required></textarea>
+				 required ng-readonly="user.dpo && request.id"></textarea>
 			</div>
 		</div>
 		<div class="form-group row" ng-if="currentFile">
@@ -58,7 +58,7 @@
 			<label class="col-sm-3 col-form-label" for="added-file">{{ !request.addedFile ? 'Ajouter un' : 'Modifier le' }}
 				fichier</label>
 			<div class="col-sm-3">
-				<input type="file" ngf-select ng-model="request.addedFile" name="file">
+				<input type="file" ngf-select ng-model="request.addedFile" name="file" ng-disabled="user.dpo && request.id">
 			</div>
 		</div>
 
@@ -74,39 +74,39 @@
 		<div class="row justify-content-center">
 			<div class="text-left col-sm-3 tableCell">Investissements</div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
-				 ng-model="request.benInvY1" required /></div>
+				 ng-model="request.benInvY1" required ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
-				 ng-model="request.benInvY2" /></div>
+				 ng-model="request.benInvY2" ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
-				 ng-model="request.benInvY3" /></div>
+				 ng-model="request.benInvY3" ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
-				 ng-model="request.benInvY4" /></div>
+				 ng-model="request.benInvY4" ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-1 tableCell">{{request.benInvY1 + request.benInvY2 + request.benInvY3 +
 				request.benInvY4}}</div>
 		</div>
 		<div class="row justify-content-center">
 			<div class="text-left col-sm-3 tableCell">Coûts d'exploitation</div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
-				 ng-model="request.benCostY1" required /></div>
+				 ng-model="request.benCostY1" required ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
-				 ng-model="request.benCostY2" /></div>
+				 ng-model="request.benCostY2" ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
-				 ng-model="request.benCostY3" /></div>
+				 ng-model="request.benCostY3" ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
-				 ng-model="request.benCostY4" /></div>
+				 ng-model="request.benCostY4" ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-1 tableCell">{{request.benCostY1 + request.benCostY2 + request.benCostY3 +
 				request.benCostY4}}</div>
 		</div>
 		<div class="row justify-content-center">
 			<div class="text-left col-sm-3 tableCell">Bénéfices</div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
-				 ng-model="request.benBenefY1" required /></div>
+				 ng-model="request.benBenefY1" required ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
-				 ng-model="request.benBenefY2" /></div>
+				 ng-model="request.benBenefY2" ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
-				 ng-model="request.benBenefY3" /></div>
+				 ng-model="request.benBenefY3" ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
-				 ng-model="request.benBenefY4" /></div>
+				 ng-model="request.benBenefY4" ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-1 tableCell">{{request.benBenefY1 + request.benBenefY2 + request.benBenefY3 +
 				request.benBenefY4}}</div>
 		</div>
@@ -126,13 +126,13 @@
 		<div class="form-group row">
 			<label for="budget-estimated" class="col-sm-3 col-form-label">Estimé <span class="required-field">*</span></label>
 			<div class="col-sm-2">
-				<input type="text" class="form-control" ng-model="request.budgetEstimated" id="budget-estimated" required />
+				<input type="text" class="form-control" ng-model="request.budgetEstimated" id="budget-estimated" required ng-readonly="user.dpo && request.id" />
 			</div>
 		</div>
 		<div class="form-group row">
 			<label for="budget-available" class="col-sm-3 col-form-label">Disponible <span class="required-field">*</span></label>
 			<div class="col-sm-2">
-				<input type="text" class="form-control" ng-model="request.budgetAvailable" id="budget-available" required />
+				<input type="text" class="form-control" ng-model="request.budgetAvailable" id="budget-available" required ng-readonly="user.dpo && request.id" />
 			</div>
 		</div>
 
@@ -140,14 +140,14 @@
 		<div class="form-group row">
 			<label for="project-manager" class="col-sm-3 col-form-label">Sponsor du projet <span class="required-field">*</span></label>
 			<div class="col-sm-3">
-				<input type="text" class="form-control" ng-model="request.projectManager" id="project-manager" required />
+				<input type="text" class="form-control" ng-model="request.projectManager" id="project-manager" required ng-readonly="user.dpo && request.id" />
 			</div>
 		</div>
 		<div class="form-group row">
 			<label for="project-manager-business" class="col-sm-3 col-form-label">Chef de projet Business <span class="required-field">*</span></label>
 			<div class="col-sm-3">
 				<input type="text" class="form-control" ng-model="request.projectManagerBusiness" id="project-manager-business"
-				 required />
+				 required ng-readonly="user.dpo && request.id" />
 			</div>
 		</div>
 		<div class="form-group row">
@@ -169,9 +169,9 @@
 		<div class="row justify-content-center">
 			<div class="text-left col-sm-3 tableCell">1 - Concept &amp; Business case</div>
 			<div class="text-center col-sm-2 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
-				 ng-model="request.projSched1Business" required /></div>
+				 ng-model="request.projSched1Business" required ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-2 tableCell"><input type="date" class="form-control form-control-sm inputCell"
-				 ng-model="request.projSched1ExpDate" required /></div>
+				 ng-model="request.projSched1ExpDate" required ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
 				 ng-model="request.projSched1IT" ng-readonly="!user.groupIsIT" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
@@ -182,9 +182,9 @@
 		<div class="row justify-content-center">
 			<div class="text-left col-sm-3 tableCell">2 - Analysis &amp; spec</div>
 			<div class="text-center col-sm-2 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
-				 ng-model="request.projSched3Business" required /></div>
+				 ng-model="request.projSched3Business" required ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-2 tableCell"><input type="date" class="form-control form-control-sm inputCell"
-				 ng-model="request.projSched3ExpDate" required /></div>
+				 ng-model="request.projSched3ExpDate" required ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
 				 ng-model="request.projSched3IT" ng-readonly="!user.groupIsIT" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
@@ -195,9 +195,9 @@
 		<div class="row justify-content-center">
 			<div class="text-left col-sm-3 tableCell">3 - Development &amp; test</div>
 			<div class="text-center col-sm-2 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
-				 ng-model="request.projSched4Business" required /></div>
+				 ng-model="request.projSched4Business" required ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-2 tableCell"><input type="date" class="form-control form-control-sm inputCell"
-				 ng-model="request.projSched4ExpDate" required /></div>
+				 ng-model="request.projSched4ExpDate" required ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
 				 ng-model="request.projSched4IT" ng-readonly="!user.groupIsIT" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
@@ -208,9 +208,9 @@
 		<div class="row justify-content-center">
 			<div class="text-left col-sm-3 tableCell">4 - Deployment</div>
 			<div class="text-center col-sm-2 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
-				 ng-model="request.projSched5Business" required /></div>
+				 ng-model="request.projSched5Business" required ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-2 tableCell"><input type="date" class="form-control form-control-sm inputCell"
-				 ng-model="request.projSched5ExpDate" required /></div>
+				 ng-model="request.projSched5ExpDate" required ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
 				 ng-model="request.projSched5IT" ng-readonly="!user.groupIsIT" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
@@ -221,9 +221,9 @@
 		<div class="row justify-content-center">
 			<div class="text-left col-sm-3 tableCell">5 - REX</div>
 			<div class="text-center col-sm-2 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
-				 ng-model="request.projSched6Business" required /></div>
+				 ng-model="request.projSched6Business" required ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-2 tableCell"><input type="date" class="form-control form-control-sm inputCell"
-				 ng-model="request.projSched6ExpDate" required /></div>
+				 ng-model="request.projSched6ExpDate" required ng-readonly="user.dpo && request.id" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
 				 ng-model="request.projSched6IT" ng-readonly="!user.groupIsIT" /></div>
 			<div class="text-center col-sm-1 tableCell"><input type="number" step="0.01" class="form-control form-control-sm inputCell"
@@ -248,7 +248,7 @@
 		<div class="form-group row">
 			<label for="constraints" class="col-sm-3 col-form-label">Contraintes légales et/ou du groupe</label>
 			<div class="col-sm-9">
-				<textarea class="form-control" ng-model="request.constraints" id="constraints" rows="4" cols="40"></textarea>
+				<textarea class="form-control" ng-model="request.constraints" id="constraints" rows="4" cols="40" ng-readonly="user.dpo && request.id"></textarea>
 			</div>
 		</div>
 
@@ -256,31 +256,31 @@
 		<div class="form-group row">
 			<label for="rgpd-type-data" class="col-sm-3 col-form-label">Type de données collectées et/ou utilisées <span class="required-field">*</span></label>
 			<div class="col-sm-9">
-				<textarea class="form-control" ng-model="request.rgpdTypeData" id="rgpd-type-data" rows="4" cols="40" required></textarea>
+				<textarea class="form-control" ng-model="request.rgpdTypeData" id="rgpd-type-data" rows="4" cols="40" required ng-readonly="user.dpo && request.id"></textarea>
 			</div>
 		</div>
 		<div class="form-group row">
 			<label for="rgpd-finalite" class="col-sm-3 col-form-label">Finalité de la collecte et/ou de l'utilisation de ces données <span class="required-field">*</span></label>
 			<div class="col-sm-9">
-				<textarea class="form-control" ng-model="request.rgpdFinalite" id="rgpd-finalite" rows="4" cols="40" required></textarea>
+				<textarea class="form-control" ng-model="request.rgpdFinalite" id="rgpd-finalite" rows="4" cols="40" required ng-readonly="user.dpo && request.id"></textarea>
 			</div>
 		</div>
 		<div class="form-group row">
 			<label for="rgpd-processus" class="col-sm-3 col-form-label">Processus lié <span class="required-field">*</span></label>
 			<div class="col-sm-9">
-				<textarea class="form-control" ng-model="request.rgpdProcessus" id="rgpd-processus" rows="4" cols="40" required></textarea>
+				<textarea class="form-control" ng-model="request.rgpdProcessus" id="rgpd-processus" rows="4" cols="40" required ng-readonly="user.dpo && request.id"></textarea>
 			</div>
 		</div>
 		<div class="form-group row">
 			<label for="rgpd-impact" class="col-sm-3 col-form-label">Risque sur la vie privée <span class="required-field">*</span></label>
 			<div class="col-sm-9">
-				<textarea class="form-control" ng-model="request.rgpdImpact" id="rgpd-impact" rows="4" cols="40" required placeholder="Décrire les menaces potentielles pour la sécurité des données à caractère privé liées au traitement"></textarea>
+				<textarea class="form-control" ng-model="request.rgpdImpact" id="rgpd-impact" rows="4" cols="40" required ng-readonly="user.dpo && request.id" placeholder="Décrire les menaces potentielles pour la sécurité des données à caractère privé liées au traitement"></textarea>
 			</div>
 		</div>
 		<div class="form-group row">
 			<label for="rgpd-commentaire-dpo" class="col-sm-3 col-form-label">Commentaire du DPO</label>
 			<div class="col-sm-9">
-				<textarea class="form-control" ng-model="request.rgpdCommentaireDPO" id="rgpd-commentaire-dpo" rows="4" cols="40" ng-disabled="!user.dpo"></textarea>
+				<textarea class="form-control" ng-model="request.rgpdCommentaireDPO" id="rgpd-commentaire-dpo" rows="4" cols="40" ng-readonly="!user.dpo"></textarea>
 			</div>
 		</div>
 
